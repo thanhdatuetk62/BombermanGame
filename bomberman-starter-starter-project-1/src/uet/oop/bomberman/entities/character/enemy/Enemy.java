@@ -5,11 +5,14 @@ import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.LayeredEntity;
 import uet.oop.bomberman.entities.Message;
+import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.bomb.Flame;
+import uet.oop.bomberman.entities.bomb.FlameSegment;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.Character;
 import uet.oop.bomberman.entities.character.enemy.ai.AI;
 import uet.oop.bomberman.entities.tile.Wall;
+import uet.oop.bomberman.entities.tile.destroyable.Brick;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.level.Coordinates;
@@ -131,8 +134,28 @@ public abstract class Enemy extends Character {
         if(entity_LoLeft instanceof Wall || entity_LoRight instanceof  Wall || entity_UpLeft instanceof Wall || entity_UpRight instanceof Wall) {
             return false;
         } else if(entity_LoLeft instanceof LayeredEntity || entity_LoRight instanceof  LayeredEntity || entity_UpLeft instanceof LayeredEntity || entity_UpRight instanceof LayeredEntity) {
-            return false;
-        } else if(collide(entity_LoLeft)&&collide(entity_LoRight)&&collide(entity_UpLeft)&&collide(entity_UpRight))
+			if (entity_LoLeft instanceof LayeredEntity) {
+				Entity top = ((LayeredEntity) entity_LoLeft).getTopEntity();
+				if (top instanceof Brick)
+					return false;
+			}
+			if (entity_LoRight instanceof LayeredEntity) {
+				Entity top = ((LayeredEntity) entity_LoRight).getTopEntity();
+				if (top instanceof Brick)
+					return false;
+			}
+			if (entity_UpLeft instanceof LayeredEntity) {
+				Entity top = ((LayeredEntity) entity_UpLeft).getTopEntity();
+				if (top instanceof Brick)
+					return false;
+			}
+			if (entity_UpRight instanceof LayeredEntity) {
+				Entity top = ((LayeredEntity) entity_UpRight).getTopEntity();
+				if (top instanceof Brick)
+					return false;
+			}
+			return true;
+        } else if(collide(entity_LoLeft)||collide(entity_LoRight)||collide(entity_UpLeft)||collide(entity_UpRight))
             return false;
         else
             return true;
@@ -140,7 +163,16 @@ public abstract class Enemy extends Character {
 
 	@Override
 	public boolean collide(Entity e) {
+		if(e instanceof Bomb)
+			return true;
 		// TODO: xử lý va chạm với Flame
+		if(e instanceof FlameSegment) {
+			kill();
+		}
+		if(e instanceof Bomber) {
+			if(e.getXTile()==getXTile()&&e.getYTile()==getYTile())
+				((Bomber) e).kill();
+		}
 		// TODO: xử lý va chạm với Bomber
 		return false;
 	}

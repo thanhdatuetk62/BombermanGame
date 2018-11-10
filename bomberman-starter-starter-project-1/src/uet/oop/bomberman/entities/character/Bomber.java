@@ -9,8 +9,10 @@ import uet.oop.bomberman.entities.bomb.Flame;
 import uet.oop.bomberman.entities.bomb.FlameSegment;
 import uet.oop.bomberman.entities.character.enemy.Enemy;
 import uet.oop.bomberman.entities.tile.Grass;
+import uet.oop.bomberman.entities.tile.Portal;
 import uet.oop.bomberman.entities.tile.Wall;
 import uet.oop.bomberman.entities.tile.destroyable.Brick;
+import uet.oop.bomberman.entities.tile.item.Item;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.input.Keyboard;
@@ -82,16 +84,20 @@ public class Bomber extends Character {
         // TODO: _timeBetweenPutBombs dùng để ngăn chặn Bomber đặt 2 Bomb cùng tại 1 vị trí trong 1 khoảng thời gian quá ngắn
         // TODO: nếu 3 điều kiện trên thỏa mãn thì thực hiện đặt bom bằng placeBomb()
         // TODO: sau khi đặt, nhớ giảm số lượng Bomb Rate và reset _timeBetweenPutBombs về 0
-        if(_input.space&&_timeBetweenPutBombs<0&Game.getBombRate()>0) {
+        if(_input.space&&_timeBetweenPutBombs<0&&Game.getBombRate()>0) {
+            if(Game.getBombRate()>=1) {
+                _timeBetweenPutBombs = 30;
+            }
+            else
+                _timeBetweenPutBombs = 0;
             placeBomb(Coordinates.pixelToTile(_x + Game.TILES_SIZE*3/8), Coordinates.pixelToTile(_y - Game.TILES_SIZE/2));
-            _timeBetweenPutBombs = 0;
-            Game.addBombRate(-1);
         }
     }
 
     protected void placeBomb(int x, int y) {
         // TODO: thực hiện tạo đối tượng bom, đặt vào vị trí (x, y)
         _board.addBomb(new Bomb(x, y, _board));
+        Game.addBombRate(-1);
     }
 
     private void clearBombs() {
@@ -158,26 +164,87 @@ public class Bomber extends Character {
         double loLx = x+1;
         double upRx = x-1 + Game.TILES_SIZE*3/4;
         double loRx = x-1 + Game.TILES_SIZE*3/4;
+
         int tile_UpLx = Coordinates.pixelToTile(upLx);
         int tile_UpLy = Coordinates.pixelToTile(upLy);
+
         int tile_UpRx = Coordinates.pixelToTile(upRx);
         int tile_UpRy = Coordinates.pixelToTile(upRy);
+
         int tile_LoLx = Coordinates.pixelToTile(loLx);
         int tile_LoLy = Coordinates.pixelToTile(loLy);
+
         int tile_LoRx = Coordinates.pixelToTile(loRx);
         int tile_LoRy = Coordinates.pixelToTile(loRy);
+
         Entity entity_UpLeft = _board.getEntity(tile_UpLx, tile_UpLy, this);
         Entity entity_UpRight = _board.getEntity(tile_UpRx, tile_UpRy, this);
         Entity entity_LoLeft = _board.getEntity(tile_LoLx, tile_LoLy, this);
         Entity entity_LoRight = _board.getEntity(tile_LoRx, tile_LoRy, this);
         if(entity_LoLeft instanceof Wall || entity_LoRight instanceof  Wall || entity_UpLeft instanceof Wall || entity_UpRight instanceof Wall) {
             return false;
-        } else if(entity_LoLeft instanceof LayeredEntity || entity_LoRight instanceof  LayeredEntity || entity_UpLeft instanceof LayeredEntity || entity_UpRight instanceof LayeredEntity) {
+        }
+        if(entity_LoLeft instanceof LayeredEntity || entity_LoRight instanceof  LayeredEntity || entity_UpLeft instanceof LayeredEntity || entity_UpRight instanceof LayeredEntity) {
+            if (entity_LoLeft instanceof LayeredEntity) {
+                Entity top = ((LayeredEntity) entity_LoLeft).getTopEntity();
+                if (top instanceof Brick)
+                    return false;
+                if(top instanceof Item) {
+                    top.collide(this);
+                    return true;
+                }
+                if(top instanceof Portal&&_board.detectNoEnemies()) {
+                    if(top.collide(this))
+                        _board.nextLevel();
+                    return true;
+                }
+            }
+            if (entity_LoRight instanceof LayeredEntity) {
+                Entity top = ((LayeredEntity) entity_LoRight).getTopEntity();
+                if (top instanceof Brick)
+                    return false;
+                if(top instanceof Item) {
+                    top.collide(this);
+                    return true;
+                }
+                if(top instanceof Portal&&_board.detectNoEnemies()) {
+                    if(top.collide(this))
+                        _board.nextLevel();
+                    return true;
+                }
+            }
+            if (entity_UpLeft instanceof LayeredEntity) {
+                Entity top = ((LayeredEntity) entity_UpLeft).getTopEntity();
+                if (top instanceof Brick)
+                    return false;
+                if(top instanceof Item) {
+                    top.collide(this);
+                    return true;
+                }
+                if(top instanceof Portal&&_board.detectNoEnemies()) {
+                    if(top.collide(this))
+                        _board.nextLevel();
+                    return true;
+                }
+            }
+            if (entity_UpRight instanceof LayeredEntity) {
+                Entity top = ((LayeredEntity) entity_UpRight).getTopEntity();
+                if (top instanceof Brick)
+                    return false;
+                if(top instanceof Item) {
+                    top.collide(this);
+                    return true;
+                }
+                if(top instanceof Portal&&_board.detectNoEnemies()) {
+                    if(top.collide(this))
+                        _board.nextLevel();
+                    return true;
+                }
+            }
+        }
+        if(collide(entity_LoLeft)||collide(entity_LoRight)||collide(entity_UpLeft)||collide(entity_UpRight))
             return false;
-        } else if(collide(entity_LoLeft)||collide(entity_LoRight)||collide(entity_UpLeft)||collide(entity_UpRight)) {
-            return false;
-        } else
-            return true;
+        return true;
     }
     private void soften(double xa, double ya) {
         if(xa!=_x&&_y==ya) {
@@ -240,8 +307,12 @@ public class Bomber extends Character {
     public boolean collide(Entity e) {
         // TODO: xử lý va chạm với Flame
         // TODO: xử lý va chạm với Enemy
-        if(e instanceof FlameSegment||e instanceof Enemy) {
+        if(e instanceof FlameSegment) {
             kill();
+        }
+        if(e instanceof Enemy) {
+            if(getXTile()==e.getXTile()&&getYTile()==e.getYTile())
+                kill();
         }
         if( e instanceof Bomb) {
             if(e.collide(this))

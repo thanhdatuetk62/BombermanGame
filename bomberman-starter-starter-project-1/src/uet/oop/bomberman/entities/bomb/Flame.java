@@ -3,8 +3,12 @@ package uet.oop.bomberman.entities.bomb;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.LayeredEntity;
 import uet.oop.bomberman.entities.character.Character;
 import uet.oop.bomberman.entities.character.enemy.Enemy;
+import uet.oop.bomberman.entities.tile.Wall;
+import uet.oop.bomberman.entities.tile.destroyable.Brick;
+import uet.oop.bomberman.entities.tile.destroyable.DestroyableTile;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.level.Coordinates;
 
@@ -50,15 +54,27 @@ public class Flame extends Entity {
 		for(int i = 0; i < calculatePermitedDistance(); i++) {
 			if(i==calculatePermitedDistance()-1)
 				last = true;
-			if(_direction==0)
+			if(_direction==0) {
 				_flameSegments[i] = new FlameSegment(xOrigin, yOrigin - i, _direction, last);
-			if(_direction==1)
+				_flameSegments[i].collide(_board.getCharacterAtExcluding(xOrigin, yOrigin - i, null));
+//				_flameSegments[i].collide(_board.getBombAt(xOrigin, yOrigin - i));
+			}
+			else if(_direction==1) {
 				_flameSegments[i] = new FlameSegment(xOrigin + i, yOrigin, _direction, last);
-			if(_direction==2)
+				_flameSegments[i].collide(_board.getCharacterAtExcluding(xOrigin + i, yOrigin, null));
+				_flameSegments[i].collide(_board.getBombAt(xOrigin + i, yOrigin));
+			}
+			else if(_direction==2) {
 				_flameSegments[i] = new FlameSegment(xOrigin, yOrigin + i, _direction, last);
-			if(_direction==3)
+				_flameSegments[i].collide(_board.getCharacterAtExcluding(xOrigin, yOrigin + i, null));
+//				_flameSegments[i].collide(_board.getBombAt(xOrigin, yOrigin + i));
+			}
+			else {
 				_flameSegments[i] = new FlameSegment(xOrigin - i, yOrigin, _direction, last);
-			_flameSegments[i].collide(_board.getCharacterAtExcluding((int)_x, (int)_y, null));
+				_flameSegments[i].collide(_board.getCharacterAtExcluding(xOrigin - i, yOrigin, null));
+				_flameSegments[i].collide(_board.getBombAt(xOrigin - i, yOrigin));
+			}
+
 		}
 
 
@@ -70,6 +86,62 @@ public class Flame extends Entity {
 	 */
 	private int calculatePermitedDistance() {
 		// TODO: thực hiện tính toán độ dài của Flame
+		if(_direction==0) {
+			for(int i = 0; i <_radius; i++) {
+				Entity barrier = _board.getEntityAt(xOrigin, yOrigin-i);
+				if(barrier instanceof Wall)
+					return i;
+				if(barrier instanceof LayeredEntity) {
+					Entity top = ((LayeredEntity) barrier).getTopEntity();
+					if(top instanceof DestroyableTile) {
+						((DestroyableTile) top).destroy();
+						return i;
+					}
+				}
+			}
+		}
+		if(_direction==1) {
+			for(int i = 0; i <_radius; i++) {
+				Entity barrier = _board.getEntityAt(xOrigin + i, yOrigin);
+				if(barrier instanceof Wall)
+					return i;
+				if(barrier instanceof LayeredEntity) {
+					Entity top = ((LayeredEntity) barrier).getTopEntity();
+					if(top instanceof DestroyableTile) {
+						((DestroyableTile) top).destroy();
+						return i;
+					}
+				}
+			}
+		}
+		if(_direction==2) {
+			for(int i = 0; i <_radius; i++) {
+				Entity barrier = _board.getEntityAt(xOrigin, yOrigin + i);
+				if(barrier instanceof Wall)
+					return i;
+				if(barrier instanceof LayeredEntity) {
+					Entity top = ((LayeredEntity) barrier).getTopEntity();
+					if(top instanceof DestroyableTile) {
+						((DestroyableTile) top).destroy();
+						return i;
+					}
+				}
+			}
+		}
+		if(_direction==3) {
+			for(int i = 0; i <_radius; i++) {
+				Entity barrier = _board.getEntityAt(xOrigin - i, yOrigin);
+				if(barrier instanceof Wall)
+					return i;
+				if(barrier instanceof LayeredEntity) {
+					Entity top = ((LayeredEntity) barrier).getTopEntity();
+					if(top instanceof DestroyableTile) {
+						((DestroyableTile) top).destroy();
+						return i;
+					}
+				}
+			}
+		}
 		return _radius;
 	}
 	

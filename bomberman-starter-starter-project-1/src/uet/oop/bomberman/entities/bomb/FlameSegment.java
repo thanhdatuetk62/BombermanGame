@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities.bomb;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.entities.AnimatedEntitiy;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.Character;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
@@ -105,10 +106,13 @@ public class FlameSegment extends AnimatedEntitiy {	//TODO: BEFORE: extends Enti
 	public boolean collide(Entity e) {
 		// TODO: xử lý khi FlameSegment va chạm với Character
 		if(e instanceof Character) {
-			((Character) e).kill();
-			return false;
+			if(e.getXTile()==_x&&e.getYTile()==_y)
+				((Character) e).kill();
 		}
-		return true;
+		if(e instanceof Bomb) {
+			e.collide(this);
+		}
+		return false;
 	}
 	
 
