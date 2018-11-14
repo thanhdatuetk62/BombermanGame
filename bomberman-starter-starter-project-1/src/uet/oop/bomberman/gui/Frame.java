@@ -1,6 +1,7 @@
 package uet.oop.bomberman.gui;
 
 import uet.oop.bomberman.Game;
+import uet.oop.bomberman.Sound.Soundtrack;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +18,6 @@ public class Frame extends JFrame {
 	private Game _game;
 
 	public Frame() {
-		
 		_containerpane = new JPanel(new BorderLayout());
 		_gamepane = new GamePanel(this);
 		_infopanel = new InfoPanel(_gamepane.getGame());

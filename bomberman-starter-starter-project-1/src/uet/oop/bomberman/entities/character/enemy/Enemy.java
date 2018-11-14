@@ -2,6 +2,8 @@ package uet.oop.bomberman.entities.character.enemy;
 
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
+import uet.oop.bomberman.Sound.Action;
+import uet.oop.bomberman.Sound.Sound;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.LayeredEntity;
 import uet.oop.bomberman.entities.Message;
@@ -180,8 +182,10 @@ public abstract class Enemy extends Character {
 	@Override
 	public void kill() {
 		if(!_alive) return;
+
 		_alive = false;
-		
+		Thread t = new Thread(new Sound(Action.enemyDied, false));
+		t.start();
 		_board.addPoints(_points);
 
 		Message msg = new Message("+" + _points, getXMessage(), getYMessage(), 2, Color.white, 14);

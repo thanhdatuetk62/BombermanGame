@@ -1,6 +1,8 @@
 package uet.oop.bomberman.entities.tile.item;
 
 import uet.oop.bomberman.Game;
+import uet.oop.bomberman.Sound.Action;
+import uet.oop.bomberman.Sound.Sound;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.graphics.Sprite;
@@ -18,6 +20,8 @@ public class BombItem extends Item {
 			int xBomber = e.getXTile();
 			int yBomber = e.getYTile();
 			if(getX()==xBomber&&getY()==yBomber) {
+				Thread t = new Thread(new Sound(Action.itemGet, false));
+				t.start();
 				remove();
 				Game.addBombRate(1);
 			}

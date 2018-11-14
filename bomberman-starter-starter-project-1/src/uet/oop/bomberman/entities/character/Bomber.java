@@ -2,13 +2,13 @@ package uet.oop.bomberman.entities.character;
 
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
+import uet.oop.bomberman.Sound.Action;
+import uet.oop.bomberman.Sound.Sound;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.LayeredEntity;
 import uet.oop.bomberman.entities.bomb.Bomb;
-import uet.oop.bomberman.entities.bomb.Flame;
 import uet.oop.bomberman.entities.bomb.FlameSegment;
 import uet.oop.bomberman.entities.character.enemy.Enemy;
-import uet.oop.bomberman.entities.tile.Grass;
 import uet.oop.bomberman.entities.tile.Portal;
 import uet.oop.bomberman.entities.tile.Wall;
 import uet.oop.bomberman.entities.tile.destroyable.Brick;
@@ -26,6 +26,8 @@ public class Bomber extends Character {
     private List<Bomb> _bombs;
     protected Keyboard _input;
 
+    private final int time = 15;
+    private int countTime = 0;
     /**
      * nếu giá trị này < 0 thì cho phép đặt đối tượng Bomb tiếp theo,
      * cứ mỗi lần đặt 1 Bomb mới, giá trị này sẽ được reset về 0 và giảm dần trong mỗi lần update()
@@ -41,8 +43,10 @@ public class Bomber extends Character {
 
     @Override
     public void update() {
+
         clearBombs();
         if (!_alive) {
+            animate();
             afterKill();
             return;
         }
@@ -64,8 +68,7 @@ public class Bomber extends Character {
         if (_alive)
             chooseSprite();
         else
-            _sprite = Sprite.player_dead1;
-//            _sprite = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2, Sprite.player_dead3, _animate, 120);
+            _sprite = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2, Sprite.player_dead3, _animate, 120);
 
         screen.renderEntity((int) _x, (int) _y - _sprite.SIZE, this);
     }
@@ -96,7 +99,14 @@ public class Bomber extends Character {
 
     protected void placeBomb(int x, int y) {
         // TODO: thực hiện tạo đối tượng bom, đặt vào vị trí (x, y)
+        Entity downThere = _board.getEntity((double)x, (double)y, this);
+        if(downThere instanceof LayeredEntity) {
+            if(((LayeredEntity) downThere).getTopEntity() instanceof Portal)
+                return;
+        }
         _board.addBomb(new Bomb(x, y, _board));
+        Thread t = new Thread(new Sound(Action.placeBomb, false));
+        t.start();
         Game.addBombRate(-1);
     }
 
@@ -117,6 +127,8 @@ public class Bomber extends Character {
     @Override
     public void kill() {
         if (!_alive) return;
+        Thread t = new Thread(new Sound(Action.endGame, false));
+        t.start();
         _alive = false;
     }
 
@@ -132,27 +144,48 @@ public class Bomber extends Character {
     protected void calculateMove() {
         // TODO: xử lý nhận tín hiệu điều khiển hướng đi từ _input và gọi move() để thực hiện di chuyển
         // TODO: nhớ cập nhật lại giá trị cờ _moving khi thay đổi trạng thái di chuyển
+        Thread t = new Thread(new Sound(Action.bomberWalk, false));
         if(_input.down) {
             _moving = true;
             move(_x, _y + Game.getBomberSpeed());
+            countTime--;
+            if(countTime<0) {
+                t.start();
+                countTime = time;
+            }
         }
-        if(_input.left) {
+        else if(_input.left) {
             _moving = true;
             move(_x - Game.getBomberSpeed(), _y);
+            countTime--;
+            if(countTime<0) {
+                t.start();
+                countTime = time;
+            }
         }
-        if(_input.right) {
+        else if(_input.right) {
             _moving = true;
             move(_x + Game.getBomberSpeed(), _y);
+            countTime--;
+            if(countTime<0) {
+                t.start();
+                countTime = time;
+            }
         }
-        if(_input.up) {
+        else if(_input.up) {
             _moving = true;
             move(_x, _y - Game.getBomberSpeed());
+            countTime--;
+            if(countTime<0) {
+                t.start();
+                countTime = time;
+            }
         }
-        if(!(_input.up||_input.right||_input.left||_input.down)) {
+        else {
+            countTime = 0;
             _moving = false;
         }
     }
-
     @Override
     public boolean canMove(double x, double y) {
         // TODO: kiểm tra có đối tượng tại vị trí chuẩn bị di chuyển đến và có thể di chuyển tới đó hay không
@@ -302,6 +335,7 @@ public class Bomber extends Character {
         } else {
             soften(xa, ya);
         }
+
     }
     @Override
     public boolean collide(Entity e) {

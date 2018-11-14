@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities.bomb;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.entities.AnimatedEntitiy;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.LayeredEntity;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.Character;
 import uet.oop.bomberman.graphics.Screen;
@@ -12,6 +13,7 @@ import uet.oop.bomberman.graphics.Sprite;
 public class FlameSegment extends AnimatedEntitiy {	//TODO: BEFORE: extends Entity
 	protected boolean _last;
 	protected int _direction;
+	protected Board _board;
 	/**
 	 *
 	 * @param x
@@ -20,11 +22,12 @@ public class FlameSegment extends AnimatedEntitiy {	//TODO: BEFORE: extends Enti
 	 * @param last cho biết segment này là cuối cùng của Flame hay không,
 	 *                segment cuối có sprite khác so với các segment còn lại
 	 */
-	public FlameSegment(int x, int y, int direction, boolean last) {
+	public FlameSegment(int x, int y, int direction, boolean last, Board board) {
 		_x = x;
 		_y = y;
 		_last = last;
 		_direction = direction;
+		_board = board;
 		switch (direction) {
 			case 0:
 				if(!_last) {
@@ -94,7 +97,10 @@ public class FlameSegment extends AnimatedEntitiy {	//TODO: BEFORE: extends Enti
 		}
 		int xt = (int)_x << 4;
 		int yt = (int)_y << 4;
-		screen.renderEntityWithBelowSprite(xt, yt , this, Sprite.grass);
+		Entity e = _board.getEntityAt(_x, _y);
+		if(e instanceof LayeredEntity)
+			e = ((LayeredEntity) e).getTopEntity();
+		screen.renderEntityWithBelowSprite(xt, yt , this, e.getSprite());
 	}
 	
 	@Override

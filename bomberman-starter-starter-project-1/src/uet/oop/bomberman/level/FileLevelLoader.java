@@ -56,6 +56,7 @@ public class FileLevelLoader extends LevelLoader {
 				}
 				rowNum++;
 			}
+			stream.close();
 			br.close();
 		} catch (IOException e) {
 			System.err.println("Read From File Failed.");

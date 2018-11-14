@@ -55,22 +55,22 @@ public class Flame extends Entity {
 			if(i==calculatePermitedDistance()-1)
 				last = true;
 			if(_direction==0) {
-				_flameSegments[i] = new FlameSegment(xOrigin, yOrigin - i, _direction, last);
+				_flameSegments[i] = new FlameSegment(xOrigin, yOrigin - i, _direction, last, _board);
 				_flameSegments[i].collide(_board.getCharacterAtExcluding(xOrigin, yOrigin - i, null));
-//				_flameSegments[i].collide(_board.getBombAt(xOrigin, yOrigin - i));
+				_flameSegments[i].collide(_board.getBombAt(xOrigin, yOrigin - i));
 			}
 			else if(_direction==1) {
-				_flameSegments[i] = new FlameSegment(xOrigin + i, yOrigin, _direction, last);
+				_flameSegments[i] = new FlameSegment(xOrigin + i, yOrigin, _direction, last, _board);
 				_flameSegments[i].collide(_board.getCharacterAtExcluding(xOrigin + i, yOrigin, null));
 				_flameSegments[i].collide(_board.getBombAt(xOrigin + i, yOrigin));
 			}
 			else if(_direction==2) {
-				_flameSegments[i] = new FlameSegment(xOrigin, yOrigin + i, _direction, last);
+				_flameSegments[i] = new FlameSegment(xOrigin, yOrigin + i, _direction, last, _board);
 				_flameSegments[i].collide(_board.getCharacterAtExcluding(xOrigin, yOrigin + i, null));
-//				_flameSegments[i].collide(_board.getBombAt(xOrigin, yOrigin + i));
+				_flameSegments[i].collide(_board.getBombAt(xOrigin, yOrigin + i));
 			}
 			else {
-				_flameSegments[i] = new FlameSegment(xOrigin - i, yOrigin, _direction, last);
+				_flameSegments[i] = new FlameSegment(xOrigin - i, yOrigin, _direction, last, _board);
 				_flameSegments[i].collide(_board.getCharacterAtExcluding(xOrigin - i, yOrigin, null));
 				_flameSegments[i].collide(_board.getBombAt(xOrigin - i, yOrigin));
 			}

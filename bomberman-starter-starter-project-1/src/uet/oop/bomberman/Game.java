@@ -1,9 +1,11 @@
 package uet.oop.bomberman;
 
+import uet.oop.bomberman.Sound.Soundtrack;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.gui.Frame;
 import uet.oop.bomberman.input.Keyboard;
 
+import java.applet.AudioClip;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -49,7 +51,7 @@ public class Game extends Canvas {
 	
 	private BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 	private int[] pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
-	
+
 	public Game(Frame frame) {
 		_frame = frame;
 		_frame.setTitle(TITLE);

@@ -47,7 +47,7 @@ public class Board implements IRender {
 	}
 	
 	@Override
-	public void update() {
+	public void update()  {
 		if( _game.isPaused() ) return;
 		
 		updateEntities();

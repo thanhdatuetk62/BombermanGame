@@ -14,7 +14,7 @@ public abstract class Character extends AnimatedEntitiy {
 	protected int _direction = -1;
 	protected boolean _alive = true;
 	protected boolean _moving = false;
-	public int _timeAfter = 60;
+	public int _timeAfter = 70;
 	
 	public Character(int x, int y, Board board) {
 		_x = x;

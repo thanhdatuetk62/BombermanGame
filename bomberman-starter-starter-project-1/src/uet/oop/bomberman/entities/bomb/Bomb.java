@@ -2,9 +2,10 @@ package uet.oop.bomberman.entities.bomb;
 
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
+import uet.oop.bomberman.Sound.Action;
+import uet.oop.bomberman.Sound.Sound;
 import uet.oop.bomberman.entities.AnimatedEntitiy;
 import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.LayeredEntity;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.Character;
 import uet.oop.bomberman.graphics.Screen;
@@ -77,6 +78,8 @@ public class Bomb extends AnimatedEntitiy {
      * Xử lý Bomb nổ
      */
 	protected void explode() {
+		Thread t = new Thread(new Sound(Action.explode, false));
+		t.start();
 		_timeToExplode = 0;
 		_exploded = true;
 		// TODO: tạo các Flame

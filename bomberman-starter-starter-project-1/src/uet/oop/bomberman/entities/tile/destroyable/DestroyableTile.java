@@ -1,5 +1,7 @@
 package uet.oop.bomberman.entities.tile.destroyable;
 
+import uet.oop.bomberman.Sound.Action;
+import uet.oop.bomberman.Sound.Sound;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.tile.Tile;
 import uet.oop.bomberman.graphics.Sprite;
@@ -31,6 +33,8 @@ public class DestroyableTile extends Tile {
 	}
 
 	public void destroy() {
+		Thread t = new Thread(new Sound(Action.brickBreak, false));
+		t.start();
 		_destroyed = true;
 	}
 	
