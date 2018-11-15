@@ -1,5 +1,6 @@
 package uet.oop.bomberman;
 
+import uet.oop.bomberman.Sound.Sound;
 import uet.oop.bomberman.Sound.Soundtrack;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.gui.Frame;
@@ -106,6 +107,7 @@ public class Game extends Canvas {
 	}
 
 	private void update() {
+
 		_input.update();
 		_board.update();
 	}
@@ -120,6 +122,9 @@ public class Game extends Canvas {
 		int frames = 0;
 		int updates = 0;
 		requestFocus();
+		Sound soundtrack = new Sound(Soundtrack.ground, true);
+		Thread t = new Thread(soundtrack);
+		t.start();
 		while(_running) {
 			long now = System.nanoTime();
 			delta += (now - lastTime) / ns;
@@ -135,7 +140,6 @@ public class Game extends Canvas {
 					_board.setShow(-1);
 					_paused = false;
 				}
-					
 				renderScreen();
 			} else {
 				renderGame();
@@ -196,5 +200,6 @@ public class Game extends Canvas {
 	public void pause() {
 		_paused = true;
 	}
-	
+
+	public void resume() {_screenDelay = -1;}
 }

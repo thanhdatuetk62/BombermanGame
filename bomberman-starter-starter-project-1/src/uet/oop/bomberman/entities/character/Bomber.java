@@ -43,21 +43,15 @@ public class Bomber extends Character {
 
     @Override
     public void update() {
-
+        animate();
         clearBombs();
         if (!_alive) {
-            animate();
             afterKill();
             return;
         }
-
         if (_timeBetweenPutBombs < -7500) _timeBetweenPutBombs = 0;
         else _timeBetweenPutBombs--;
-
-        animate();
-
         calculateMove();
-
         detectPlaceBomb();
     }
 
@@ -341,9 +335,8 @@ public class Bomber extends Character {
     public boolean collide(Entity e) {
         // TODO: xử lý va chạm với Flame
         // TODO: xử lý va chạm với Enemy
-        if(e instanceof FlameSegment) {
-            kill();
-        }
+        if(e instanceof FlameSegment)
+            e.collide(this);
         if(e instanceof Enemy) {
             if(getXTile()==e.getXTile()&&getYTile()==e.getYTile())
                 kill();

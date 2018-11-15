@@ -97,7 +97,7 @@ public class FlameSegment extends AnimatedEntitiy {	//TODO: BEFORE: extends Enti
 		}
 		int xt = (int)_x << 4;
 		int yt = (int)_y << 4;
-		Entity e = _board.getEntityAt(_x, _y);
+		Entity e = _board.getEntityAt((double)_x, (double)_y);
 		if(e instanceof LayeredEntity)
 			e = ((LayeredEntity) e).getTopEntity();
 		screen.renderEntityWithBelowSprite(xt, yt , this, e.getSprite());

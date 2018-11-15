@@ -7,6 +7,7 @@ import java.io.IOException;
 public class Sound implements Runnable{
     private AudioClip sound;
     private boolean isLoop;
+    private boolean isStop;
     public Sound(AudioClip sound, boolean l) {
         this.sound = sound;
         this.isLoop = l;
@@ -15,18 +16,21 @@ public class Sound implements Runnable{
     @Override
     public void run() {
         try {
-            AudioInputStream ais = AudioSystem.getAudioInputStream(Sound.class.getResource("/Sounds/PLAYER_WALK.wav"));
-            AudioFormat format = ais.getFormat();
-            DataLine.Info info = new DataLine.Info(Clip.class, format);
-            sound.play();
-            Thread.sleep(500);
-
-        } catch (UnsupportedAudioFileException e) {
-
-        } catch (IOException e){
-
+            if(!isStop) {
+                if(isLoop) sound.loop();
+                else sound.play();
+                Thread.sleep(500);
+            }
+            else
+                sound.stop();
         } catch (InterruptedException e) {
 
         }
+    }
+    public void stop() {
+        isStop = true;
+    }
+    public void resume() {
+        isStop = false;
     }
 }

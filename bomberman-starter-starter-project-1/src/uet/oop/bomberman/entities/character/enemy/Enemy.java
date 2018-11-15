@@ -156,21 +156,21 @@ public abstract class Enemy extends Character {
 				if (top instanceof Brick)
 					return false;
 			}
-			return true;
-        } else if(collide(entity_LoLeft)||collide(entity_LoRight)||collide(entity_UpLeft)||collide(entity_UpRight))
+        }
+        if(collide(entity_LoLeft)||collide(entity_LoRight)||collide(entity_UpLeft)||collide(entity_UpRight))
             return false;
-        else
-            return true;
+        return true;
 	}
 
 	@Override
 	public boolean collide(Entity e) {
 		if(e instanceof Bomb)
 			return true;
+
 		// TODO: xử lý va chạm với Flame
-		if(e instanceof FlameSegment) {
-			kill();
-		}
+		if(e instanceof FlameSegment)
+			e.collide(this);
+
 		if(e instanceof Bomber) {
 			if(e.getXTile()==getXTile()&&e.getYTile()==getYTile())
 				((Bomber) e).kill();

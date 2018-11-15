@@ -109,13 +109,37 @@ public class Board implements IRender {
 		if(_time <= 0)
 			endGame();
 	}
-	
+	//TODO: add NEWGAME, RESTART, PAUSE and RESUME
+	public void newGame() {
+		resetProperties();
+		loadLevel(1);
+	}
+	public void restart() {
+		resetProperties();
+		loadLevel(_levelLoader.getLevel());
+	}
 	public void endGame() {
 		_screenToShow = 1;
 		_game.resetScreenDelay();
 		_game.pause();
 	}
-	
+	public void gamePause() {
+		_game.resetScreenDelay();
+		if(_screenToShow <= 0)
+			_screenToShow = 3;
+		_game.pause();
+	}
+	public void gameResume() {
+		_game.resetScreenDelay();
+		_screenToShow = -1;
+		_game.resume();
+	}
+	private void resetProperties() {
+		_points = Game.POINTS;
+		_game.bomberSpeed = 1.0;
+		_game.bombRadius = 1;
+		_game.bombRate = 1;
+	}
 	public boolean detectNoEnemies() {
 		int total = 0;
 		for (int i = 0; i < _characters.size(); i++) {
