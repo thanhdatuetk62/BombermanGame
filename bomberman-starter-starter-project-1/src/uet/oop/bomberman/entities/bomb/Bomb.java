@@ -15,8 +15,8 @@ import uet.oop.bomberman.level.Coordinates;
 public class Bomb extends AnimatedEntitiy {
 
 	protected double _timeToExplode = 120; //2 seconds
-	public int _timeAfter = 30;
-	
+	public int _timeAfter = 20;
+	private static int _time = 20;
 	protected Board _board;
 	protected Flame[] _flames;
 	protected boolean _exploded = false;
@@ -51,15 +51,15 @@ public class Bomb extends AnimatedEntitiy {
 	@Override
 	public void render(Screen screen) {
 		if(_exploded) {
-			_sprite = Sprite.movingSprite(Sprite.bomb_exploded, Sprite.bomb_exploded1, Sprite.bomb_exploded2, _animate, 60);
+			_sprite = Sprite.movingSprite(Sprite.bomb_exploded, Sprite.bomb_exploded1, Sprite.bomb_exploded2, _animate, _time);
 			renderFlames(screen);
 		} else
-			_sprite = Sprite.movingSprite(Sprite.bomb, Sprite.bomb_1, Sprite.bomb_2, _animate, 60);
+			_sprite = Sprite.movingSprite(Sprite.bomb, Sprite.bomb_1, Sprite.bomb_2, _animate, 40);
 		
 		int xt = (int)_x << 4;
 		int yt = (int)_y << 4;
 		
-		screen.renderEntityWithBelowSprite(xt, yt , this, Sprite.grass);
+		screen.renderEntity(xt, yt , this);
 	}
 	
 	public void renderFlames(Screen screen) {

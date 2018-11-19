@@ -14,6 +14,7 @@ public class FlameSegment extends AnimatedEntitiy {	//TODO: BEFORE: extends Enti
 	protected boolean _last;
 	protected int _direction;
 	protected Board _board;
+	private static int _time = 20;
 	/**
 	 *
 	 * @param x
@@ -67,30 +68,30 @@ public class FlameSegment extends AnimatedEntitiy {	//TODO: BEFORE: extends Enti
 		switch (_direction) {
 			case 0:
 				if(!_last) {
-					_sprite = Sprite.movingSprite(Sprite.explosion_vertical, Sprite.explosion_vertical1, Sprite.explosion_vertical2, _animate, 60);
+					_sprite = Sprite.movingSprite(Sprite.explosion_vertical, Sprite.explosion_vertical1, Sprite.explosion_vertical2, _animate, _time);
 				} else {
-					_sprite = Sprite.movingSprite(Sprite.explosion_vertical_top_last, Sprite.explosion_vertical_top_last1, Sprite.explosion_vertical_top_last2, _animate, 60);
+					_sprite = Sprite.movingSprite(Sprite.explosion_vertical_top_last, Sprite.explosion_vertical_top_last1, Sprite.explosion_vertical_top_last2, _animate, _time);
 				}
 				break;
 			case 1:
 				if(!_last) {
-					_sprite = Sprite.movingSprite(Sprite.explosion_horizontal, Sprite.explosion_horizontal1, Sprite.explosion_horizontal2, _animate, 60);
+					_sprite = Sprite.movingSprite(Sprite.explosion_horizontal, Sprite.explosion_horizontal1, Sprite.explosion_horizontal2, _animate, _time);
 				} else {
-					_sprite = Sprite.movingSprite(Sprite.explosion_horizontal_right_last, Sprite.explosion_horizontal_right_last1, Sprite.explosion_horizontal_right_last2, _animate, 60);
+					_sprite = Sprite.movingSprite(Sprite.explosion_horizontal_right_last, Sprite.explosion_horizontal_right_last1, Sprite.explosion_horizontal_right_last2, _animate, _time);
 				}
 				break;
 			case 2:
 				if(!_last) {
-					_sprite = Sprite.movingSprite(Sprite.explosion_vertical, Sprite.explosion_vertical1, Sprite.explosion_vertical2, _animate, 60);
+					_sprite = Sprite.movingSprite(Sprite.explosion_vertical, Sprite.explosion_vertical1, Sprite.explosion_vertical2, _animate, _time);
 				} else {
-					_sprite = Sprite.movingSprite(Sprite.explosion_vertical_down_last, Sprite.explosion_vertical_down_last1, Sprite.explosion_vertical_down_last2, _animate, 60);
+					_sprite = Sprite.movingSprite(Sprite.explosion_vertical_down_last, Sprite.explosion_vertical_down_last1, Sprite.explosion_vertical_down_last2, _animate, _time);
 				}
 				break;
 			case 3:
 				if(!_last) {
-					_sprite = Sprite.movingSprite(Sprite.explosion_horizontal, Sprite.explosion_horizontal1, Sprite.explosion_horizontal2, _animate, 60);
+					_sprite = Sprite.movingSprite(Sprite.explosion_horizontal, Sprite.explosion_horizontal1, Sprite.explosion_horizontal2, _animate, _time);
 				} else {
-					_sprite = Sprite.movingSprite(Sprite.explosion_horizontal_left_last, Sprite.explosion_horizontal_left_last1, Sprite.explosion_horizontal_left_last2, _animate, 60);
+					_sprite = Sprite.movingSprite(Sprite.explosion_horizontal_left_last, Sprite.explosion_horizontal_left_last1, Sprite.explosion_horizontal_left_last2, _animate, _time);
 				}
 				break;
 
@@ -100,7 +101,7 @@ public class FlameSegment extends AnimatedEntitiy {	//TODO: BEFORE: extends Enti
 		Entity e = _board.getEntityAt((double)_x, (double)_y);
 		if(e instanceof LayeredEntity)
 			e = ((LayeredEntity) e).getTopEntity();
-		screen.renderEntityWithBelowSprite(xt, yt , this, e.getSprite());
+		screen.renderEntity(xt, yt , this);
 	}
 	
 	@Override

@@ -111,10 +111,12 @@ public class Board implements IRender {
 	}
 	//TODO: add NEWGAME, RESTART, PAUSE and RESUME
 	public void newGame() {
+		Screen.setOffset(0,0);
 		resetProperties();
 		loadLevel(1);
 	}
 	public void restart() {
+		Screen.setOffset(0,0);
 		resetProperties();
 		loadLevel(_levelLoader.getLevel());
 	}
