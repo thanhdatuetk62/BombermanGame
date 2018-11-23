@@ -38,7 +38,7 @@ public class FileLevelLoader extends LevelLoader {
 		Class c = null;
 		try {
 			c = Class.forName("uet.oop.bomberman.level.FileLevelLoader");
-			InputStream stream = c.getResourceAsStream("/levels/Level1.txt");
+			InputStream stream = c.getResourceAsStream("/levels/Level" + level + ".txt");
 			Reader r = new InputStreamReader(stream, "UTF-8");
 			BufferedReader br = new BufferedReader(r);
 
@@ -73,14 +73,6 @@ public class FileLevelLoader extends LevelLoader {
 
 		// TODO: phần code mẫu ở dưới để hướng dẫn cách thêm các loại Entity vào game
 		// TODO: hãy xóa nó khi hoàn thành chức năng load màn chơi từ tệp cấu hình
-		// thêm Wall
-//		for (int x = 0; x < _width; x++) {
-//			for (int y = 0; y < _height; y++) {
-//				int pos = x + y * _width;
-//				Sprite sprite = y == 0 || x == 0 || x == _width-1 || y == _height-1 ? Sprite.wall : Sprite.grass;
-//				_board.addEntity(pos, new Grass(x, y, sprite));
-//			}
-//		}
 		for(int x = 0; x < _width ; x++) {
 			for(int y = 0; y < _height; y++) {
 				int pos = x + y * _width;

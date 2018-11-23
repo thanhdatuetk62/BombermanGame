@@ -3,6 +3,7 @@ package uet.oop.bomberman.entities.character.enemy;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.character.enemy.ai.AILow;
+import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 
 public class Balloon extends Enemy {
@@ -16,7 +17,6 @@ public class Balloon extends Enemy {
 		_ai = new AILow();
 		_direction = _ai.calculateDirection();
 	}
-
 	@Override
 	protected void chooseSprite() {
 		switch(_direction) {

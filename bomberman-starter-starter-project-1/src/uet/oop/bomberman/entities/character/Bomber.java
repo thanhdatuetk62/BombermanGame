@@ -98,6 +98,7 @@ public class Bomber extends Character {
             if(((LayeredEntity) downThere).getTopEntity() instanceof Portal)
                 return;
         }
+        if(downThere instanceof Bomb || downThere instanceof Enemy) return;
         _board.addBomb(new Bomb(x, y, _board));
         Thread t = new Thread(new Sound(Action.placeBomb, false));
         t.start();

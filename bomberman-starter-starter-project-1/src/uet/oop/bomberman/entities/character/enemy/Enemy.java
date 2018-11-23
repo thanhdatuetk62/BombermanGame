@@ -34,7 +34,7 @@ public abstract class Enemy extends Character {
 	
 	protected int _finalAnimation = 30;
 	protected Sprite _deadSprite;
-	
+	private int currentDirect = 0;
 	public Enemy(int x, int y, Board board, Sprite dead, double speed, int points) {
 		super(x, y, board);
 		
@@ -86,19 +86,25 @@ public abstract class Enemy extends Character {
 		// TODO: sử dụng canMove() để kiểm tra xem có thể di chuyển tới điểm đã tính toán hay không
 		// TODO: sử dụng move() để di chuyển
 		// TODO: nhớ cập nhật lại giá trị cờ _moving khi thay đổi trạng thái di chuyển
-		int direct = _ai.calculateDirection();
 		_moving = true;
-		if(direct==0) move(_x, _y + _speed);
-		if(direct==1) move(_x + _speed, _y);
-        if(direct==2) move(_x - _speed, _y);
-        if(direct==3) move(_x, _y - _speed);
+		if(_steps != MAX_STEPS) {
+			_steps--;
+			if(_steps == 0)
+				_steps = MAX_STEPS;
+		} else {
+		    _steps--;
+			currentDirect = _ai.calculateDirection();
+		}
+		if(currentDirect==0) move(_x, _y + _speed);
+		if(currentDirect==1) move(_x + _speed, _y);
+        if(currentDirect==2) move(_x - _speed, _y);
+        if(currentDirect==3) move(_x, _y - _speed);
 	}
 	
 	@Override
 	public void move(double xa, double ya) {
 		if(!_alive) return;
 		if(!canMove(xa, ya)) {
-			_ai.canMove = false;
 			_moving = true;
 			return;
 		}
@@ -164,9 +170,9 @@ public abstract class Enemy extends Character {
 
 	@Override
 	public boolean collide(Entity e) {
-		if(e instanceof Bomb)
-			return true;
-
+		if(e instanceof Bomb) {
+		    return true;
+        }
 		// TODO: xử lý va chạm với Flame
 		if(e instanceof FlameSegment)
 			e.collide(this);
