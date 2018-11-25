@@ -4,13 +4,14 @@ import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.character.ai.AIHigh;
-import uet.oop.bomberman.entities.character.ai.AILow;
 import uet.oop.bomberman.entities.tile.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.level.Coordinates;
 
-public class Dorial extends Enemy {
-    public Dorial(int x, int y, Board board) {
+public class Doria extends Enemy
+{
+    public Doria(int x, int y, Board board)
+    {
         super(x, y, board, Sprite.kondoria_dead, Game.getBomberSpeed() / 2, 1000);
 
         _sprite = Sprite.kondoria_left1;
@@ -18,16 +19,18 @@ public class Dorial extends Enemy {
         _ai = new AIHigh(board);
         _direction = _ai.calculateDirection();
     }
+
     @Override
-    public boolean canMove(double x, double y) {
-        double loLy = y-1;
-        double loRy = y-1;
-        double upLy = y - Game.TILES_SIZE ;
-        double upRy = y - Game.TILES_SIZE ;
+    public boolean canMove(double x, double y)
+    {
+        double loLy = y - 1;
+        double loRy = y - 1;
+        double upLy = y - Game.TILES_SIZE;
+        double upRy = y - Game.TILES_SIZE;
         double upLx = x;
         double loLx = x;
-        double upRx = x-1 + Game.TILES_SIZE;
-        double loRx = x-1 + Game.TILES_SIZE;
+        double upRx = x - 1 + Game.TILES_SIZE;
+        double loRx = x - 1 + Game.TILES_SIZE;
         int tile_UpLx = Coordinates.pixelToTile(upLx);
         int tile_UpLy = Coordinates.pixelToTile(upLy);
         int tile_UpRx = Coordinates.pixelToTile(upRx);
@@ -40,16 +43,20 @@ public class Dorial extends Enemy {
         Entity entity_UpRight = _board.getEntity(tile_UpRx, tile_UpRy, this);
         Entity entity_LoLeft = _board.getEntity(tile_LoLx, tile_LoLy, this);
         Entity entity_LoRight = _board.getEntity(tile_LoRx, tile_LoRy, this);
-        if(entity_LoLeft instanceof Wall || entity_LoRight instanceof  Wall || entity_UpLeft instanceof Wall || entity_UpRight instanceof Wall) {
+        if (entity_LoLeft instanceof Wall || entity_LoRight instanceof Wall || entity_UpLeft instanceof Wall || entity_UpRight instanceof Wall)
+        {
             return false;
         }
-        if(collide(entity_LoLeft)||collide(entity_LoRight)||collide(entity_UpLeft)||collide(entity_UpRight))
+        if (collide(entity_LoLeft) || collide(entity_LoRight) || collide(entity_UpLeft) || collide(entity_UpRight))
             return false;
         return true;
     }
+
     @Override
-    protected void chooseSprite() {
-        switch(_direction) {
+    protected void chooseSprite()
+    {
+        switch (_direction)
+        {
             case 0:
             case 1:
                 _sprite = Sprite.movingSprite(Sprite.kondoria_right1, Sprite.kondoria_right2, Sprite.kondoria_right3, _animate, 60);

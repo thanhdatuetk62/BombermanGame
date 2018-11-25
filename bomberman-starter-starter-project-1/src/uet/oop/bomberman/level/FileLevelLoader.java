@@ -5,7 +5,7 @@ import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.LayeredEntity;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.enemy.Balloon;
-import uet.oop.bomberman.entities.character.enemy.Dorial;
+import uet.oop.bomberman.entities.character.enemy.Doria;
 import uet.oop.bomberman.entities.character.enemy.Oneal;
 import uet.oop.bomberman.entities.tile.Grass;
 import uet.oop.bomberman.entities.tile.Portal;
@@ -95,7 +95,7 @@ public class FileLevelLoader extends LevelLoader {
 				}
 				else if(_map[x][y]=='3') {
 					_board.addEntity(pos, new Grass(x, y, Sprite.grass));
-					_board.addCharacter(new Dorial(Coordinates.tileToPixel(x), Coordinates.tileToPixel(y) + Game.TILES_SIZE, _board));
+					_board.addCharacter(new Doria(Coordinates.tileToPixel(x), Coordinates.tileToPixel(y) + Game.TILES_SIZE, _board));
 
 				}
 				//TODO: Add Bricks
