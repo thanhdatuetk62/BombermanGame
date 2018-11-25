@@ -1,5 +1,7 @@
 package uet.oop.bomberman;
 
+import uet.oop.bomberman.Sound.Action;
+import uet.oop.bomberman.Sound.Sound;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.Message;
 import uet.oop.bomberman.entities.bomb.Bomb;
@@ -33,7 +35,7 @@ public class Board implements IRender {
 	protected List<Bomb> _bombs = new ArrayList<>();
 	private List<Message> _messages = new ArrayList<>();
 	
-	private int _screenToShow = -1; //1:endgame, 2:changelevel, 3:paused
+	private int _screenToShow = -1; //1:endgame, 2:changelevel, 3:paused, 4: Finish!
 	
 	private int _time = Game.TIME;
 	private int _points = Game.POINTS;
@@ -94,7 +96,11 @@ public class Board implements IRender {
 		_characters.clear();
 		_bombs.clear();
 		_messages.clear();
-		
+		//TODO: Addition
+		resetProperties();
+		Screen.setOffset(0,0);
+		Thread t = new Thread(new Sound(Action.pass, false));
+		t.start();
 		try {
 			_levelLoader = new FileLevelLoader(this, level);
 			_entities = new Entity[_levelLoader.getHeight() * _levelLoader.getWidth()];
@@ -102,6 +108,8 @@ public class Board implements IRender {
 			_levelLoader.createEntities();
 		} catch (LoadLevelException e) {
 			endGame();
+		} catch (NullPointerException e) {
+			finishGame();
 		}
 	}
 	
@@ -111,18 +119,23 @@ public class Board implements IRender {
 	}
 	//TODO: add NEWGAME, RESTART, PAUSE and RESUME
 	public void newGame() {
-		Screen.setOffset(0,0);
-		resetProperties();
 		loadLevel(1);
 	}
 	public void restart() {
-		Screen.setOffset(0,0);
-		resetProperties();
 		loadLevel(_levelLoader.getLevel());
 	}
 	public void endGame() {
 		_screenToShow = 1;
 		_game.resetScreenDelay();
+		Thread t = new Thread(new Sound(Action.endGame, false));
+		t.start();
+		_game.pause();
+	}
+	public void finishGame() {
+		_screenToShow = 4;
+		_game.resetScreenDelay();
+		Thread t = new Thread(new Sound(Action.finishGame, false));
+		t.start();
 		_game.pause();
 	}
 	public void gamePause() {
@@ -162,6 +175,9 @@ public class Board implements IRender {
 				break;
 			case 3:
 				_screen.drawPaused(g);
+				break;
+			case 4:
+				_screen.drawFinishGame(g, _points);
 				break;
 		}
 	}

@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities.bomb;
 
 import uet.oop.bomberman.Board;
+import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.AnimatedEntitiy;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.LayeredEntity;
@@ -8,6 +9,7 @@ import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.Character;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
+import uet.oop.bomberman.level.Coordinates;
 
 
 public class FlameSegment extends AnimatedEntitiy {	//TODO: BEFORE: extends Entity
@@ -112,15 +114,21 @@ public class FlameSegment extends AnimatedEntitiy {	//TODO: BEFORE: extends Enti
 	@Override
 	public boolean collide(Entity e) {
 		// TODO: xử lý khi FlameSegment va chạm với Character
+		Bomber b = _board.getBomber();
+		int leftX = Coordinates.pixelToTile(b.getX() + Game.TILES_SIZE/6);
+		int rightX = Coordinates.pixelToTile(b.getX() + Game.TILES_SIZE*4/6);
+		int bottomY = Coordinates.pixelToTile(b.getY() - Game.TILES_SIZE/6);
+		int topY = Coordinates.pixelToTile(b.getY() - Game.TILES_SIZE*4/6);
+		if((leftX==_x&&b.getYTile()==_y)||(rightX==_x&&b.getYTile()==_y))
+			b.kill();
+		if((b.getXTile()==_x&&bottomY==_y)||(b.getXTile()==_x&&topY==_y))
+			b.kill();
 		if(e instanceof Character) {
-			if(e.getXTile()==_x&&e.getYTile()==_y)
-				((Character) e).kill();
+			((Character) e).kill();
 		}
 		if(e instanceof Bomb) {
 			e.collide(this);
 		}
 		return false;
 	}
-	
-
 }
