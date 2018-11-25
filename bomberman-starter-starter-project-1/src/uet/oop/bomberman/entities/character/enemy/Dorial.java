@@ -3,20 +3,19 @@ package uet.oop.bomberman.entities.character.enemy;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.Entity;
-import uet.oop.bomberman.entities.LayeredEntity;
-import uet.oop.bomberman.entities.character.enemy.ai.AILow;
+import uet.oop.bomberman.entities.character.ai.AIHigh;
+import uet.oop.bomberman.entities.character.ai.AILow;
 import uet.oop.bomberman.entities.tile.Wall;
-import uet.oop.bomberman.entities.tile.destroyable.Brick;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.level.Coordinates;
 
 public class Dorial extends Enemy {
     public Dorial(int x, int y, Board board) {
-        super(x, y, board, Sprite.kondoria_dead, Game.getBomberSpeed() / 2, 100);
+        super(x, y, board, Sprite.kondoria_dead, Game.getBomberSpeed() / 2, 1000);
 
         _sprite = Sprite.kondoria_left1;
 
-        _ai = new AILow();
+        _ai = new AIHigh(board);
         _direction = _ai.calculateDirection();
     }
     @Override
