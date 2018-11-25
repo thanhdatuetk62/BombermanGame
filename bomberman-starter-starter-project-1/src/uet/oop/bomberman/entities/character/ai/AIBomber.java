@@ -9,6 +9,6 @@ public class AIBomber extends AI
     }
     public int calculateDirection()
     {
-        return 3;
+        return random.nextInt(4);
     }
 }

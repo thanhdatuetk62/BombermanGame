@@ -81,6 +81,9 @@ public class FileLevelLoader extends LevelLoader
 
         // TODO: phần code mẫu ở dưới để hướng dẫn cách thêm các loại Entity vào game
         // TODO: hãy xóa nó khi hoàn thành chức năng load màn chơi từ tệp cấu hình
+        Game.levelHeight = _height;
+        Game.levelWidth = _width;
+
         for (int x = 0; x < _width; x++)
         {
             for (int y = 0; y < _height; y++)
@@ -116,6 +119,7 @@ public class FileLevelLoader extends LevelLoader
                 else if (_map[x][y] == '*')
                 {
                     _board.addEntity(pos, new LayeredEntity(x, y, new Grass(x, y, Sprite.grass), new Brick(x, y, Sprite.brick)));
+                    // add something
                 }
                 //TODO: Add Bomb Items
                 else if (_map[x][y] == 'b')
