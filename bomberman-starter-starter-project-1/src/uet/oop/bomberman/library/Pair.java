@@ -15,12 +15,12 @@ public class Pair
         this.y = y;
     }
 
-    public int first()
+    public int getX()
     {
         return x;
     }
 
-    public int second()
+    public int getY()
     {
         return y;
     }

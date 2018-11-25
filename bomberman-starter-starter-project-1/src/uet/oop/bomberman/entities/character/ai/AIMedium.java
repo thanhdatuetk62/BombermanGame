@@ -8,6 +8,7 @@ public class AIMedium extends AI
     public AIMedium(Board board)
     {
         this.board = board;
+        caclCurrentMap();
     }
 
     /*

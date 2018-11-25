@@ -9,7 +9,9 @@ public class AIHigh extends AI
 {
     public AIHigh(Board board)
     {
+        canGo.replace('*', true);
         this.board = board;
+        caclCurrentMap();
     }
 
     /*
