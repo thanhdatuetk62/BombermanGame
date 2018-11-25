@@ -459,6 +459,13 @@ public class Bomber extends Character
         {
             soften(xa, ya);
         }
+        char[][] map = _board.reviveMap();
+        for(int i = 0; i < map[0].length; i++) {
+            for(int j = 0;j < map.length; j++) {
+                System.out.print(map[j][i]);
+            }
+            System.out.println();
+        }
 
     }
 

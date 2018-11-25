@@ -142,7 +142,8 @@ public class FileLevelLoader extends LevelLoader
                 else if (_map[x][y] == 'x')
                     _board.addEntity(pos, new LayeredEntity(x, y, new Grass(x, y, Sprite.grass), new Portal(x, y, Sprite.portal), new Brick(x, y, Sprite.brick)));
                     //TODO: Add Grasses
-                else _board.addEntity(pos, new Grass(x, y, Sprite.grass));
+                else if(_map[x][y]==' ')
+                    _board.addEntity(pos, new Grass(x, y, Sprite.grass));
             }
         }
     }

@@ -17,13 +17,14 @@ public abstract class AI
      */
 
     // Todo: @return current map
-    public int[][] getCurrentMap() throws NullPointerException
+    public char[][] getCurrentMap() throws NullPointerException
     {
         if (this.board == null)
         {
             throw new NullPointerException("Board haven't been initialized!!!");
         }
-        int[][] map = new int[Game.levelWidth][Game.levelHeight];
+        char[][] map = board.reviveMap();
+
         return  map;
     }
 
