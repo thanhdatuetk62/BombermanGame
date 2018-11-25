@@ -3,11 +3,22 @@ package uet.oop.bomberman;
 import uet.oop.bomberman.Sound.Action;
 import uet.oop.bomberman.Sound.Sound;
 import uet.oop.bomberman.entities.Entity;
+import uet.oop.bomberman.entities.LayeredEntity;
 import uet.oop.bomberman.entities.Message;
 import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.bomb.FlameSegment;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.Character;
+import uet.oop.bomberman.entities.character.enemy.Balloon;
+import uet.oop.bomberman.entities.character.enemy.Doria;
+import uet.oop.bomberman.entities.character.enemy.Oneal;
+import uet.oop.bomberman.entities.tile.Grass;
+import uet.oop.bomberman.entities.tile.Portal;
+import uet.oop.bomberman.entities.tile.Wall;
+import uet.oop.bomberman.entities.tile.destroyable.Brick;
+import uet.oop.bomberman.entities.tile.item.BombItem;
+import uet.oop.bomberman.entities.tile.item.FlameItem;
+import uet.oop.bomberman.entities.tile.item.SpeedItem;
 import uet.oop.bomberman.exceptions.LoadLevelException;
 import uet.oop.bomberman.graphics.IRender;
 import uet.oop.bomberman.graphics.Screen;
@@ -39,19 +50,20 @@ public class Board implements IRender {
 	
 	private int _time = Game.TIME;
 	private int _points = Game.POINTS;
-	
+	//TODO: MAP 2D
+	private char[][] _map;
 	public Board(Game game, Keyboard input, Screen screen) {
 		_game = game;
 		_input = input;
 		_screen = screen;
-		
 		loadLevel(1); //start in level 1
+		_map = new char[_levelLoader.getWidth()][_levelLoader.getHeight()];
 	}
 	
 	@Override
 	public void update()  {
 		if( _game.isPaused() ) return;
-		
+		updateMap();
 		updateEntities();
 		updateCharacters();
 		updateBombs();
@@ -392,5 +404,54 @@ public class Board implements IRender {
 
 	public int getHeight() {
 		return _levelLoader.getHeight();
+	}
+
+	private char revive(Entity e) {
+		if(e instanceof Wall)
+			return '#';
+		else if(e instanceof Grass)
+			return ' ';
+		else if(e instanceof LayeredEntity)
+		{
+			Entity top = ((LayeredEntity) e).getTopEntity();
+			if(top instanceof Portal) return 'x';
+			else if(top instanceof SpeedItem) return 's';
+			else if(top instanceof BombItem) return 'b';
+			else if(top instanceof FlameItem) return 'f';
+			else if(top instanceof Brick) return '*';
+			else return ' ';
+		}
+		else if(e instanceof Character)
+		{
+			if(e instanceof Bomber) {
+				if(getEntity(e.getXTile(), e.getYTile(), (Bomber)e) instanceof Bomb)
+					return '5';
+				return 'p';
+			}
+			else if(e instanceof Balloon) return '1';
+			else if(e instanceof Oneal) return '2';
+			else if(e instanceof Doria) return '3';
+			else return 'p';
+		}
+		else if(e instanceof Bomb) {
+			Bomber b = getBomber();
+			if(b.getXTile()==e.getX()&&b.getYTile()==e.getY())
+				return '5';
+			return '4';
+		}
+		else
+			return ' ';
+	}
+	private void updateMap() {
+		//TODO: read entities array first
+		for(int h = 0; h < _levelLoader.getHeight(); h++) {
+			for(int w = 0; w < _levelLoader.getWidth(); w++) {
+				_map[w][h] = revive(getEntity((double)w, (double)h, null));
+			}
+		}
+
+	}
+	public char[][] reviveMap() {
+		return _map;
 	}
 }
