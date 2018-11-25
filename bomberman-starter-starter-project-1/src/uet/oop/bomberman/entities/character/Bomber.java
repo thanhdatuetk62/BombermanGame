@@ -9,6 +9,8 @@ import uet.oop.bomberman.entities.LayeredEntity;
 import uet.oop.bomberman.entities.bomb.Bomb;
 import uet.oop.bomberman.entities.bomb.FlameSegment;
 import uet.oop.bomberman.entities.character.enemy.Enemy;
+import uet.oop.bomberman.entities.character.enemy.ai.AI;
+import uet.oop.bomberman.entities.character.enemy.ai.AIBomber;
 import uet.oop.bomberman.entities.tile.Portal;
 import uet.oop.bomberman.entities.tile.Wall;
 import uet.oop.bomberman.entities.tile.destroyable.Brick;
@@ -25,9 +27,13 @@ public class Bomber extends Character {
 
     private List<Bomb> _bombs;
     protected Keyboard _input;
-
+    protected AI _ai;                           //TODO: Just for AI
+    private boolean _auto = false;              //TODO: Just for AI
+    private boolean isPlaceBomb = false;        //TODO: Just for AI
     private final int time = 15;
     private int countTime = 0;
+    protected int _finalAnimation = 30;
+    private boolean renderable = true;
     /**
      * nếu giá trị này < 0 thì cho phép đặt đối tượng Bomb tiếp theo,
      * cứ mỗi lần đặt 1 Bomb mới, giá trị này sẽ được reset về 0 và giảm dần trong mỗi lần update()
@@ -40,6 +46,7 @@ public class Bomber extends Character {
         _bombs = _board.getBombs();
         _input = _board.getInput();
         _sprite = Sprite.player_right;
+        _ai = new AIBomber(_board);
     }
 
     @Override
@@ -63,12 +70,10 @@ public class Bomber extends Character {
         if (_alive)
             chooseSprite();
         else {
-            if(_timeAfter<=210) {
-                _sprite = Sprite.grass;
-            } else
             _sprite = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2, Sprite.player_dead3, _animate, 60);
         }
-        screen.renderEntity((int) _x, (int) _y - _sprite.SIZE, this);
+        if(renderable)
+            screen.renderEntity((int) _x, (int) _y - _sprite.SIZE, this);
     }
 
     public void calculateXOffset() {
@@ -85,6 +90,18 @@ public class Bomber extends Character {
         // TODO: _timeBetweenPutBombs dùng để ngăn chặn Bomber đặt 2 Bomb cùng tại 1 vị trí trong 1 khoảng thời gian quá ngắn
         // TODO: nếu 3 điều kiện trên thỏa mãn thì thực hiện đặt bom bằng placeBomb()
         // TODO: sau khi đặt, nhớ giảm số lượng Bomb Rate và reset _timeBetweenPutBombs về 0
+        if(_auto) {
+            if(isPlaceBomb&&_timeBetweenPutBombs<0&&Game.getBombRate()>0) {
+                if(Game.getBombRate()>=1) {
+                    _timeBetweenPutBombs = 30;
+                }
+                else
+                    _timeBetweenPutBombs = 0;
+                placeBomb(Coordinates.pixelToTile(_x + Game.TILES_SIZE/2), Coordinates.pixelToTile(_y - Game.TILES_SIZE/2));
+                isPlaceBomb = false;
+            }
+            return;
+        }
         if(_input.space&&_timeBetweenPutBombs<0&&Game.getBombRate()>0) {
             if(Game.getBombRate()>=1) {
                 _timeBetweenPutBombs = 30;
@@ -133,7 +150,11 @@ public class Bomber extends Character {
 
     @Override
     protected void afterKill() {
-        if (_timeAfter > 0) --_timeAfter;
+        if (_timeAfter > 0) {
+            --_timeAfter;
+            if(_finalAnimation>0) _finalAnimation--;
+            else renderable=false;
+        }
         else {
             _board.endGame();
         }
@@ -143,6 +164,58 @@ public class Bomber extends Character {
     protected void calculateMove() {
         // TODO: xử lý nhận tín hiệu điều khiển hướng đi từ _input và gọi move() để thực hiện di chuyển
         // TODO: nhớ cập nhật lại giá trị cờ _moving khi thay đổi trạng thái di chuyển
+        if(_auto) {
+            processAuto();
+        } else {
+            processManual();
+        }
+    }
+    private void processAuto() {
+        Thread t = new Thread(new Sound(Action.bomberWalk, false));
+        int direction = _ai.calculateDirection();
+        switch (direction) {
+            case 0:
+                _moving =true;
+                move(_x, _y + Game.getBomberSpeed());
+                countTime--;
+                if(countTime<0) {
+                    t.start();
+                    countTime = time;
+                }
+            case 1:
+                _moving = true;
+                move(_x + Game.getBomberSpeed(), _y);
+                countTime--;
+                if(countTime<0) {
+                    t.start();
+                    countTime = time;
+                }
+            case 2:
+                _moving = true;
+                move(_x - Game.getBomberSpeed(), _y);
+                countTime--;
+                if(countTime<0) {
+                    t.start();
+                    countTime = time;
+                }
+            case 3:
+                _moving = true;
+                move(_x, _y - Game.getBomberSpeed());
+                countTime--;
+                if(countTime<0) {
+                    t.start();
+                    countTime = time;
+                }
+            case 4:
+                _moving = false;
+                countTime = 0;
+                isPlaceBomb = true;
+            default:
+                countTime = 0;
+                _moving = false;
+        }
+    }
+    private void processManual() {
         Thread t = new Thread(new Sound(Action.bomberWalk, false));
         if(_input.down) {
             _moving = true;
@@ -387,5 +460,8 @@ public class Bomber extends Character {
                 }
                 break;
         }
+    }
+    public void setAuto(boolean q) {
+        _auto = q;
     }
 }

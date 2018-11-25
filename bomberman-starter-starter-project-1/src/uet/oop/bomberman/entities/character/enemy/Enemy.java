@@ -8,10 +8,11 @@ import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.LayeredEntity;
 import uet.oop.bomberman.entities.Message;
 import uet.oop.bomberman.entities.bomb.Bomb;
+import uet.oop.bomberman.entities.bomb.Flame;
 import uet.oop.bomberman.entities.bomb.FlameSegment;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.Character;
-import uet.oop.bomberman.entities.character.ai.AI;
+import uet.oop.bomberman.entities.character.enemy.ai.AI;
 import uet.oop.bomberman.entities.tile.Wall;
 import uet.oop.bomberman.entities.tile.destroyable.Brick;
 import uet.oop.bomberman.graphics.Screen;
@@ -94,10 +95,10 @@ public abstract class Enemy extends Character {
 		    _steps--;
 			currentDirect = _ai.calculateDirection();
 		}
-		if(currentDirect==0) move(_x, _y + _speed);
-		if(currentDirect==1) move(_x + _speed, _y);
-        if(currentDirect==2) move(_x - _speed, _y);
-        if(currentDirect==3) move(_x, _y - _speed);
+		if(currentDirect==0) move(_x, _y + _speed);	//DOWN
+		if(currentDirect==1) move(_x + _speed, _y);	//RIGHT
+        if(currentDirect==2) move(_x - _speed, _y);	//LEFT
+        if(currentDirect==3) move(_x, _y - _speed);	//UP
 	}
 	
 	@Override
