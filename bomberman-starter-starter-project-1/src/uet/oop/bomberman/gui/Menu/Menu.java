@@ -7,5 +7,6 @@ import javax.swing.*;
 public class Menu extends JMenuBar {
     public Menu(Frame frame) {
         add(new Game(frame));
+        add(new Player(frame));
     }
 }

@@ -7,6 +7,6 @@ public class AIBomber extends AI {
         this.board = board;
     }
     public int calculateDirection() {
-        return 0;
+        return 3;
     }
 }

@@ -32,6 +32,7 @@ public class Game extends JMenu {
         resume.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
         resume.addActionListener(new MenuActionListener(frame));
         add(resume);
+
     }
     class MenuActionListener implements ActionListener {
         public Frame _frame;

@@ -61,4 +61,10 @@ public class Frame extends JFrame {
 	public void resume() {
 		_game.getBoard().gameResume();
 	}
+	public void auto() {
+		_game.getBoard().getBomber().setAuto(true);
+	}
+	public void manual() {
+		_game.getBoard().getBomber().setAuto(false);
+	}
 }

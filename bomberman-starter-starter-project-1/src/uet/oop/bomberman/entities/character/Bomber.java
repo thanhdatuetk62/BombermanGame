@@ -197,45 +197,42 @@ public class Bomber extends Character
                 _moving = true;
                 move(_x, _y + Game.getBomberSpeed());
                 countTime--;
-                if (countTime < 0)
-                {
-                    t.start();
-                    countTime = time;
-                }
+//                if (countTime < 0)
+//                {
+//                    t.start();
+//                    countTime = time;
+//                }
             case 1:
                 _moving = true;
                 move(_x + Game.getBomberSpeed(), _y);
-                countTime--;
-                if (countTime < 0)
-                {
-                    t.start();
-                    countTime = time;
-                }
+//                countTime--;
+//                if (countTime < 0)
+//                {
+//                    t.start();
+//                    countTime = time;
+//                }
             case 2:
                 _moving = true;
                 move(_x - Game.getBomberSpeed(), _y);
                 countTime--;
-                if (countTime < 0)
-                {
-                    t.start();
-                    countTime = time;
-                }
+//                if (countTime < 0)
+//                {
+//                    t.start();
+//                    countTime = time;
+//                }
             case 3:
                 _moving = true;
                 move(_x, _y - Game.getBomberSpeed());
                 countTime--;
-                if (countTime < 0)
-                {
-                    t.start();
-                    countTime = time;
-                }
+//                if (countTime < 0)
+//                {
+//                    t.start();
+//                    countTime = time;
+//                }
             case 4:
                 _moving = false;
                 countTime = 0;
                 isPlaceBomb = true;
-            default:
-                countTime = 0;
-                _moving = false;
         }
     }
 
