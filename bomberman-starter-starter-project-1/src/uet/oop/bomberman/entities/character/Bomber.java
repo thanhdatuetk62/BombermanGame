@@ -197,6 +197,7 @@ public class Bomber extends Character
                 _moving = true;
                 move(_x, _y + Game.getBomberSpeed());
                 countTime--;
+                break;
 //                if (countTime < 0)
 //                {
 //                    t.start();
@@ -205,6 +206,7 @@ public class Bomber extends Character
             case 1:
                 _moving = true;
                 move(_x + Game.getBomberSpeed(), _y);
+                break;
 //                countTime--;
 //                if (countTime < 0)
 //                {
@@ -215,6 +217,7 @@ public class Bomber extends Character
                 _moving = true;
                 move(_x - Game.getBomberSpeed(), _y);
                 countTime--;
+                break;
 //                if (countTime < 0)
 //                {
 //                    t.start();
@@ -224,6 +227,7 @@ public class Bomber extends Character
                 _moving = true;
                 move(_x, _y - Game.getBomberSpeed());
                 countTime--;
+                break;
 //                if (countTime < 0)
 //                {
 //                    t.start();
@@ -233,6 +237,7 @@ public class Bomber extends Character
                 _moving = false;
                 countTime = 0;
                 isPlaceBomb = true;
+                break;
         }
     }
 
