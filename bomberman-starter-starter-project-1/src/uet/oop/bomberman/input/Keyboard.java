@@ -25,14 +25,19 @@ public class Keyboard implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		keys[e.getKeyCode()] = true;
-		
+		try {
+			keys[e.getKeyCode()] = true;
+		} catch(ArrayIndexOutOfBoundsException aie) {
+
+		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		keys[e.getKeyCode()] = false;
-		
-	}
+		try {
+			keys[e.getKeyCode()] = false;
+		} catch (ArrayIndexOutOfBoundsException aie) {
 
+		}
+	}
 }

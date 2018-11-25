@@ -171,7 +171,7 @@ public abstract class Enemy extends Character {
 	@Override
 	public boolean collide(Entity e) {
 		if(e instanceof Bomb) {
-		    return true;
+            return true;
         }
 		// TODO: xử lý va chạm với Flame
 		if(e instanceof FlameSegment)

@@ -20,7 +20,7 @@ public class Portal extends Tile {
 			int xBomber = e.getXTile();
 			int yBomber = e.getYTile();
 			if(getX()==xBomber&&getY()==yBomber) {
-				Thread t = new Thread(new Sound(Action.pass, false));
+				Thread t = new Thread(new Sound(Action.portal, false));
 				t.start();
 				return true;
 			}

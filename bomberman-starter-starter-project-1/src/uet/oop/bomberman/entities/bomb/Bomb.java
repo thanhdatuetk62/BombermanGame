@@ -8,6 +8,7 @@ import uet.oop.bomberman.entities.AnimatedEntitiy;
 import uet.oop.bomberman.entities.Entity;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.Character;
+import uet.oop.bomberman.entities.character.enemy.Enemy;
 import uet.oop.bomberman.graphics.Screen;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.level.Coordinates;
@@ -135,9 +136,12 @@ public class Bomb extends AnimatedEntitiy {
 			if ((tile_LoLx == _x && tile_LoLy == _y)
 					|| (tile_LoRx == _x && tile_LoRy == _y) || (tile_UpLx == _x && tile_UpLy == _y)
 					|| (tile_UpRx == _x && tile_UpRy == _y)) {
-					return false;
+				return false;
 			}
 		}
 		return true;
+	}
+	public double getTimeExplode() {
+		return _timeToExplode;
 	}
 }

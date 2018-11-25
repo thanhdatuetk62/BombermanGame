@@ -17,12 +17,14 @@ public class Sound implements Runnable{
     public void run() {
         try {
             if(!isStop) {
-                if(isLoop) sound.loop();
+                if(isLoop)  {
+                    sound.loop();
+                }
                 else sound.play();
                 Thread.sleep(500);
-            }
-            else
+            } else {
                 sound.stop();
+            }
         } catch (InterruptedException e) {
 
         }
@@ -32,5 +34,9 @@ public class Sound implements Runnable{
     }
     public void resume() {
         isStop = false;
+        run();
+    }
+    public boolean isStopped() {
+        return isStop;
     }
 }

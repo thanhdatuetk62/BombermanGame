@@ -136,12 +136,16 @@ public class Game extends Canvas {
 			}
 			
 			if(_paused) {
+			    if(!soundtrack.isStopped())
+			        soundtrack.stop();
 				if(_screenDelay <= 0) {
 					_board.setShow(-1);
 					_paused = false;
 				}
 				renderScreen();
 			} else {
+			    if(soundtrack.isStopped())
+			        soundtrack.resume();
 				renderGame();
 			}
 				
@@ -154,7 +158,6 @@ public class Game extends Canvas {
 				_frame.setTitle(TITLE + " | " + updates + " rate, " + frames + " fps");
 				updates = 0;
 				frames = 0;
-				
 				if(_board.getShow() == 2)
 					--_screenDelay;
 			}
@@ -201,5 +204,8 @@ public class Game extends Canvas {
 		_paused = true;
 	}
 
-	public void resume() {_screenDelay = -1;}
+	public void resume() {
+	    _paused = false;
+	    _screenDelay = -1;
+	}
 }

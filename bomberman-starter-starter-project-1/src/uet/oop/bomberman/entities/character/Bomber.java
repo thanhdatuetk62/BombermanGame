@@ -36,6 +36,7 @@ public class Bomber extends Character {
 
     public Bomber(int x, int y, Board board) {
         super(x, y, board);
+        _timeAfter = 250;
         _bombs = _board.getBombs();
         _input = _board.getInput();
         _sprite = Sprite.player_right;
@@ -61,9 +62,12 @@ public class Bomber extends Character {
 
         if (_alive)
             chooseSprite();
-        else
-            _sprite = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2, Sprite.player_dead3, _animate, 120);
-
+        else {
+            if(_timeAfter<=210) {
+                _sprite = Sprite.grass;
+            } else
+            _sprite = Sprite.movingSprite(Sprite.player_dead1, Sprite.player_dead2, Sprite.player_dead3, _animate, 60);
+        }
         screen.renderEntity((int) _x, (int) _y - _sprite.SIZE, this);
     }
 
@@ -87,7 +91,7 @@ public class Bomber extends Character {
             }
             else
                 _timeBetweenPutBombs = 0;
-            placeBomb(Coordinates.pixelToTile(_x + Game.TILES_SIZE*3/8), Coordinates.pixelToTile(_y - Game.TILES_SIZE/2));
+            placeBomb(Coordinates.pixelToTile(_x + Game.TILES_SIZE/2), Coordinates.pixelToTile(_y - Game.TILES_SIZE/2));
         }
     }
 
@@ -122,7 +126,7 @@ public class Bomber extends Character {
     @Override
     public void kill() {
         if (!_alive) return;
-        Thread t = new Thread(new Sound(Action.endGame, false));
+        Thread t = new Thread(new Sound(Action.bomberDied, false));
         t.start();
         _alive = false;
     }
