@@ -12,6 +12,12 @@ public class AIHigh extends AI
         this.board = board;
     }
 
+    /*
+        0 : down
+        1 : ->
+        2 : <-
+        3 : up
+     */
     @Override
     public int calculateDirection()
     {

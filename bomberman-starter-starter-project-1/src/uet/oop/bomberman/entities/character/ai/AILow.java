@@ -1,10 +1,16 @@
 package uet.oop.bomberman.entities.character.ai;
 
-
+// using for Ballon Enemy
 public class AILow extends AI
 {
     private int currentDirect;
 
+    /*
+        0 : down
+        1 : ->
+        2 : <-
+        3 : up
+     */
     @Override
     public int calculateDirection()
     {

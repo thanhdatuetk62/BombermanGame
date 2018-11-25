@@ -21,7 +21,7 @@ public class Bomb extends AnimatedEntitiy {
 	protected Board _board;
 	protected Flame[] _flames;
 	protected boolean _exploded = false;
-	protected boolean _allowedToPassThru = true;
+	//protected boolean _allowedToPassThru = true;
 	
 	public Bomb(int x, int y, Board board) {
 		_x = x;
