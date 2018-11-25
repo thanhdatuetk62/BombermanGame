@@ -1,5 +1,7 @@
 package uet.oop.bomberman.entities.character.ai;
 
+import java.util.ArrayList;
+
 // using for Ballon Enemy
 public class AILow extends AI
 {

@@ -1,5 +1,6 @@
 package uet.oop.bomberman.entities.character.ai;
 
+import java.util.HashMap;
 import java.util.Random;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
@@ -9,7 +10,8 @@ public abstract class AI
     protected boolean canMove = true;
     protected Random random = new Random();
     protected Board board;
-
+    protected HashMap <Character, Integer> hashMap;
+    protected char map[][];
     /**
      * Thuật toán tìm đường đi
      *
