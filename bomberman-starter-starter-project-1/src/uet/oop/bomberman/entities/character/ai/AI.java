@@ -4,6 +4,7 @@ import uet.oop.bomberman.Board;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import uet.oop.bomberman.Game;
 
 public abstract class AI
 {
@@ -14,6 +15,7 @@ public abstract class AI
     protected char[][] map;
     protected int[] hX = {0, 1, -1,  0};
     protected int[] hY = {1, 0,  0, -1};
+    int m, n;
     /**
      * Thuật toán tìm đường đi
      *
@@ -48,9 +50,22 @@ public abstract class AI
     {
         if (this.board == null)
         {
-            throw new NullPointerException("Board haven't been initialized!!!");
+            System.out.println("FALL");
+            //throw new NullPointerException("Board haven't been initialized!!!");
         }
         map = this.board.reviveMap();
+        m = Game.levelHeight;
+        n = Game.levelWidth;
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                System.out.print(map[i][j]);
+            }
+            System.out.println();
+        }
+        System.out.println();
+        System.out.println();
     }
 
     public abstract int calculateDirection();
