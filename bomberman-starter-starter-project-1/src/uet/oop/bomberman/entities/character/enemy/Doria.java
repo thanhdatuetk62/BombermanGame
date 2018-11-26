@@ -13,12 +13,11 @@ public class Doria extends Enemy
 {
     public Doria(int x, int y, Board board)
     {
-        super(x, y, board, Sprite.kondoria_dead, Game.getBomberSpeed() / 2, 1000);
+        super(x, y, board, Sprite.kondoria_dead, Game.getBomberSpeed() / 4, 1000);
 
         _sprite = Sprite.kondoria_left1;
-
-        _ai = new AIHigh(board, new Pair(y, x));
-        _direction = _ai.calculateDirection();
+        _ai = new AIHigh(board, this);
+        //_direction = _ai.calculateDirection();
     }
 
     @Override
@@ -56,6 +55,7 @@ public class Doria extends Enemy
     @Override
     protected void chooseSprite()
     {
+        //_direction = _ai.calculateDirection();
         switch (_direction)
         {
             case 0:

@@ -9,6 +9,12 @@ public class AIBomber extends AI
         this.board = board;
     }
 
+    @Override
+    public void calcDangerDistance()
+    {
+
+    }
+
     public int calculateDirection()
     {
         calcCurrentMap();

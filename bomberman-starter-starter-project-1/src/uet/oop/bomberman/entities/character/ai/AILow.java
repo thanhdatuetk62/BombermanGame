@@ -11,6 +11,13 @@ public class AILow extends AIEnemy
         2 : <-
         3 : up
      */
+
+    @Override
+    public void calcDangerDistance()
+    {
+
+    }
+
     @Override
     public int calculateDirection()
     {

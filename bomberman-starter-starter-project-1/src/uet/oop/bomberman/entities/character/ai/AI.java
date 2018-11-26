@@ -15,8 +15,8 @@ public abstract class AI
     protected Board board;
     protected HashMap<Character, Boolean> canGo;
     protected char[][] map;
-    protected int[] hX = {0, 1, -1, 0};
-    protected int[] hY = {1, 0, 0, -1};
+    protected int[] hX = {1, 0, 0, -1};
+    protected int[] hY = {0, 1, -1, 0};
     protected int m, n;
     protected boolean[][] inDanger;
     protected int[][] dangerDistance, distanceFromEnemy;
@@ -35,7 +35,7 @@ public abstract class AI
         ArrayList<Character> items = new ArrayList<Character>()
         {{
             add('#');
-            add('-');
+            add(' ');
             add('*');
             add('x');
             add('p');
@@ -55,7 +55,7 @@ public abstract class AI
 
     protected boolean validate(int u, int v)
     {
-        return (0 <= u && u < Game.levelWidth && 0 <= v && v < Game.levelHeight);
+        return (0 <= u && u < Game.levelHeight && 0 <= v && v < Game.levelWidth);
     }
 
     //init inDanger
@@ -63,9 +63,6 @@ public abstract class AI
     {
         inDanger = new boolean[m][n];
         int[][] d = new int[m][n];
-        for (int i = 0; i < m; i++)
-            for (int j = 0; j < n; j++)
-                d[i][j] = -1;
         Queue<Pair> queue = new Queue<>();
         for (int i = 0; i < m; i++)
             for (int j = 0; j < n; j++)
@@ -78,52 +75,29 @@ public abstract class AI
         while (!queue.isEmpty())
         {
             Pair top = queue.remove();
-            for (int i = 0; i < 4; i++)
+            int u = top.getX();
+            int v = top.getY();
+            for(int j = 0; j < 4; j++)
             {
-                int u = top.getX();
-                int v = top.getY();
-                if (!validate(u, v)) continue;
-                if (map[u][v] == '4' || map[u][v] == '#') continue;
-                if (d[u][v] >= 0) continue;
-                d[u][v] = d[top.getX()][top.getY()] + 1;
-                inDanger[u][v] = true;
-                if (!(map[u][v] == '2' || map[u][v] == '3' || map[u][v] == '5' || map[u][v] == '*'))
-                    if (d[u][v] < Game.getBombRadius())
+                for(int i = 1; i <= Game.getBombRadius(); i++)
+                {
+                    int x = u + hX[j] * i;
+                    int y = v + hY[j] * i;
+                    if (!validate(x, y)) break;
+                    if (map[x][y] == '#') break;
+                    if (map[x][y] == '*' || map[x][y] == 'p' || map[x][y] == 'x' || map[x][y] == '2' || map[x][y] == '3' || map[x][y] == '4' || map[x][y] == '5')
                     {
-                        queue.add(new Pair(u, v));
+                        inDanger[x][y] = true;
+                        break;
                     }
+                    inDanger[x][y] = true;
+                }
             }
         }
     }
 
     // caculate Danger distance
-    private void calcDangerDistance()
-    {
-        dangerDistance = new int[m][n];
-        Queue<Pair> queue = new Queue<>();
-        for (int i = 0; i < m; i++)
-            for (int j = 0; j < n; j++)
-                if (map[i][j] != '#' && map[i][j] != '*' && map[i][j] != '1' && map[i][j] != '2' && map[i][j] != '3' && inDanger[i][j] == false)
-                {
-                    queue.add(new Pair(i, j));
-                    dangerDistance[i][j] = 0;
-                } else dangerDistance[i][j] = -1;
-        while (!queue.isEmpty())
-        {
-            Pair top = queue.remove();
-            for (int i = 0; i < 4; i++)
-            {
-                int u = top.getX();
-                int v = top.getY();
-                if (!validate(u, v)) continue;
-                if (map[u][v] == '5' || map[u][v] == '2' || map[u][v] == '3' || map[u][v] == '4' || map[u][v] == '#' || map[u][v] == '*')
-                    continue;
-                if (dangerDistance[u][v] >= 0) continue;
-                dangerDistance[u][v] = dangerDistance[top.getX()][top.getY()] + 1;
-                queue.add(new Pair(u, v));
-            }
-        }
-    }
+    abstract public void calcDangerDistance();
 
     // caculate distance from Enemy
     private void calcDistanceFromEnemy()
@@ -197,7 +171,7 @@ public abstract class AI
         char[][] temp = this.board.reviveMap();
         if (temp == null)
         {
-            System.out.println("FALL");
+            //System.out.println("FALL");
             map = null;
             return;
         }
@@ -205,18 +179,6 @@ public abstract class AI
         for (int i = 0; i < m; i++)
             for (int j = 0; j < n; j++)
                 map[i][j] = temp[j][i];
-        for (int i = 0; i < m; i++)
-        {
-            for (int j = 0; j < n; j++)
-            {
-                System.out.print(map[i][j]);
-            }
-            System.out.println();
-        }
-        System.out.println();
-        System.out.println();
-
-
     }
 
     public abstract int calculateDirection();
