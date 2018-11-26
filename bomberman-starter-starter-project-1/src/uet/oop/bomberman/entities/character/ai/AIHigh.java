@@ -3,14 +3,17 @@ package uet.oop.bomberman.entities.character.ai;
 import uet.oop.bomberman.Board;
 import uet.oop.bomberman.entities.character.Bomber;
 import uet.oop.bomberman.entities.character.enemy.Enemy;
+import uet.oop.bomberman.library.Pair;
 
 // using for Doria Enemy
 public class AIHigh extends AI
 {
-    public AIHigh(Board board)
+    Pair start;
+    public AIHigh(Board board, Pair start)
     {
         canGo.replace('*', true);
         this.board = board;
+        this.start = start;
     }
 
     /*
@@ -23,7 +26,9 @@ public class AIHigh extends AI
     public int calculateDirection()
     {
         calcCurrentMap();
-        // TODO: cài đặt thuật toán tìm đường đi
+        if (map == null)
+            return 1;
+        initDistace();
         return 1;
     }
 

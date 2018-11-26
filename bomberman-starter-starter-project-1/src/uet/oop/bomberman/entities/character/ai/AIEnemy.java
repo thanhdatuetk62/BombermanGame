@@ -27,7 +27,6 @@ public abstract class AIEnemy extends AI
     // caculate best Direction by distance
     protected int bestDirection(int _x, int _y)
     {
-
         int sX = -1, sY = -1;
         for(int i = 0; i < m; i++)
             for(int j = 0; j < n; j++)

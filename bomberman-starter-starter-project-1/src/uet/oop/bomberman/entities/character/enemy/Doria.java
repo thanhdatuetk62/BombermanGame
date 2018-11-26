@@ -7,6 +7,7 @@ import uet.oop.bomberman.entities.character.ai.AIHigh;
 import uet.oop.bomberman.entities.tile.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.level.Coordinates;
+import uet.oop.bomberman.library.Pair;
 
 public class Doria extends Enemy
 {
@@ -16,7 +17,7 @@ public class Doria extends Enemy
 
         _sprite = Sprite.kondoria_left1;
 
-        _ai = new AIHigh(board);
+        _ai = new AIHigh(board, new Pair(y, x));
         _direction = _ai.calculateDirection();
     }
 
