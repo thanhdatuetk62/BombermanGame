@@ -39,6 +39,9 @@ public class Bomber extends Character
     private boolean isPlaceBomb = false;        //TODO: Just for AI
     private int countTime = 0;
     private boolean renderable = true;
+    private int direction;
+    private int maxSteps;
+    private int steps;
 
     public Bomber(int x, int y, Board board)
     {
@@ -48,6 +51,8 @@ public class Bomber extends Character
         _input = _board.getInput();
         _sprite = Sprite.player_right;
         _ai = new AIBomber(_board);
+        maxSteps = (int) Math.round(Game.TILES_SIZE / Game.getBomberSpeed());
+        steps = maxSteps + 1;
     }
 
     @Override
@@ -190,7 +195,14 @@ public class Bomber extends Character
     private void processAuto()
     {
         Thread t = new Thread(new Sound(Action.bomberWalk, false));
-        int direction = _ai.calculateDirection();
+        if (steps == maxSteps + 1) direction = _ai.calculateDirection();
+        steps--;
+        if (steps == 0)
+        {
+            steps = maxSteps;
+            direction = _ai.calculateDirection();
+        }
+
         switch (direction)
         {
             case 0:
