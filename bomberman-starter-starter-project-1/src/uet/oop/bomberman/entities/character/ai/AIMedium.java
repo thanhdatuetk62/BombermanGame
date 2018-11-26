@@ -4,9 +4,10 @@ import uet.oop.bomberman.Board;
 import uet.oop.bomberman.library.Pair;
 
 // using for Oneal Enemy
-public class AIMedium extends AI
+public class AIMedium extends AIEnemy
 {
     Pair start;
+
     public AIMedium(Board board, Pair start)
     {
         this.board = board;
@@ -24,8 +25,7 @@ public class AIMedium extends AI
     {
         // TODO: cài đặt thuật toán tìm đường đi
         calcCurrentMap();
-        if (map == null)
-            return 1;
+        if (map == null) return 1;
         initDistace();
         return 1;
     }

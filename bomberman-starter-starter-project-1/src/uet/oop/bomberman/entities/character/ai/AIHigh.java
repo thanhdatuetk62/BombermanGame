@@ -1,14 +1,13 @@
 package uet.oop.bomberman.entities.character.ai;
 
 import uet.oop.bomberman.Board;
-import uet.oop.bomberman.entities.character.Bomber;
-import uet.oop.bomberman.entities.character.enemy.Enemy;
 import uet.oop.bomberman.library.Pair;
 
 // using for Doria Enemy
-public class AIHigh extends AI
+public class AIHigh extends AIEnemy
 {
     Pair start;
+
     public AIHigh(Board board, Pair start)
     {
         canGo.replace('*', true);
@@ -26,8 +25,7 @@ public class AIHigh extends AI
     public int calculateDirection()
     {
         calcCurrentMap();
-        if (map == null)
-            return 1;
+        if (map == null) return 1;
         initDistace();
         return 1;
     }

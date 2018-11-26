@@ -25,20 +25,20 @@ import uet.oop.bomberman.level.Coordinates;
 public class Bomber extends Character
 {
 
-    private List<Bomb> _bombs;
+    private final int time = 15;
     protected Keyboard _input;
     protected AI _ai;                           //TODO: Just for AI
-    private boolean _auto = false;              //TODO: Just for AI
-    private boolean isPlaceBomb = false;        //TODO: Just for AI
-    private final int time = 15;
-    private int countTime = 0;
     protected int _finalAnimation = 30;
-    private boolean renderable = true;
     /**
      * nếu giá trị này < 0 thì cho phép đặt đối tượng Bomb tiếp theo,
      * cứ mỗi lần đặt 1 Bomb mới, giá trị này sẽ được reset về 0 và giảm dần trong mỗi lần update()
      */
     protected int _timeBetweenPutBombs = 0;
+    private List<Bomb> _bombs;
+    private boolean _auto = false;              //TODO: Just for AI
+    private boolean isPlaceBomb = false;        //TODO: Just for AI
+    private int countTime = 0;
+    private boolean renderable = true;
 
     public Bomber(int x, int y, Board board)
     {

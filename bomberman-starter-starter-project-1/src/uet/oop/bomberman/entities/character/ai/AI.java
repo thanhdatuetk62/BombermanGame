@@ -1,9 +1,9 @@
 package uet.oop.bomberman.entities.character.ai;
 
-import uet.oop.bomberman.Board;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.library.Pair;
 import uet.oop.bomberman.library.Queue;
@@ -13,13 +13,14 @@ public abstract class AI
     protected boolean canMove = true;
     protected Random random = new Random();
     protected Board board;
-    protected HashMap <Character, Boolean> canGo;
+    protected HashMap<Character, Boolean> canGo;
     protected char[][] map;
-    protected int[] hX = {0, 1, -1,  0};
-    protected int[] hY = {1, 0,  0, -1};
+    protected int[] hX = {0, 1, -1, 0};
+    protected int[] hY = {1, 0, 0, -1};
     protected int m, n;
     protected boolean[][] inDanger;
     protected int[][] dangerDistance, distanceFromEnemy;
+
     /**
      * Thuật toán tìm đường đi
      *
@@ -31,7 +32,8 @@ public abstract class AI
         m = Game.levelHeight;
         n = Game.levelWidth;
         canGo = new HashMap<>();
-        ArrayList<Character> items = new ArrayList<Character>() {{
+        ArrayList<Character> items = new ArrayList<Character>()
+        {{
             add('#');
             add('-');
             add('*');
@@ -61,23 +63,22 @@ public abstract class AI
     {
         inDanger = new boolean[m][n];
         int[][] d = new int[m][n];
-        for(int i = 0; i < m; i++)
-            for(int j = 0; j < n; j++)
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
                 d[i][j] = -1;
         Queue<Pair> queue = new Queue<>();
-        for(int i = 0; i < m; i++)
-            for(int j = 0; j < n; j++)
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
                 if (map[i][j] == '4' || map[i][j] == '5')
                 {
                     queue.add(new Pair(i, j));
                     inDanger[i][j] = true;
                     d[i][j] = 0;
-                }
-                else inDanger[i][j] = false;
+                } else inDanger[i][j] = false;
         while (!queue.isEmpty())
         {
             Pair top = queue.remove();
-            for(int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++)
             {
                 int u = top.getX();
                 int v = top.getY();
@@ -100,23 +101,23 @@ public abstract class AI
     {
         dangerDistance = new int[m][n];
         Queue<Pair> queue = new Queue<>();
-        for(int i = 0; i < m; i++)
-            for(int j = 0; j < n; j++)
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
                 if (map[i][j] != '#' && map[i][j] != '*' && map[i][j] != '1' && map[i][j] != '2' && map[i][j] != '3' && inDanger[i][j] == false)
                 {
                     queue.add(new Pair(i, j));
                     dangerDistance[i][j] = 0;
-                }
-                else dangerDistance[i][j] = -1;
+                } else dangerDistance[i][j] = -1;
         while (!queue.isEmpty())
         {
             Pair top = queue.remove();
-            for(int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++)
             {
                 int u = top.getX();
                 int v = top.getY();
                 if (!validate(u, v)) continue;
-                if (map[u][v] == '5' || map[u][v] == '2' || map[u][v] == '3' || map[u][v] == '4' || map[u][v] == '#' || map[u][v] == '*') continue;
+                if (map[u][v] == '5' || map[u][v] == '2' || map[u][v] == '3' || map[u][v] == '4' || map[u][v] == '#' || map[u][v] == '*')
+                    continue;
                 if (dangerDistance[u][v] >= 0) continue;
                 dangerDistance[u][v] = dangerDistance[top.getX()][top.getY()] + 1;
                 queue.add(new Pair(u, v));
@@ -130,23 +131,23 @@ public abstract class AI
         distanceFromEnemy = new int[m][n];
         Queue<Pair> queue = new Queue<>();
         // caculate for Balloon(1) and Oneal(2)
-        for(int i = 0; i < m; i++)
-            for(int j = 0; j < n; j++)
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
                 if (map[i][j] == '2' || map[i][j] == '3')
                 {
                     queue.add(new Pair(i, j));
                     distanceFromEnemy[i][j] = 0;
-                }
-                else distanceFromEnemy[i][j] = -1;
+                } else distanceFromEnemy[i][j] = -1;
         while (!queue.isEmpty())
         {
             Pair top = queue.remove();
-            for(int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++)
             {
                 int u = top.getX();
                 int v = top.getY();
                 if (!validate(u, v)) continue;
-                if (map[u][v] == '5' || map[u][v] == '2' || map[u][v] == '3' || map[u][v] == '4' || map[u][v] == '#' || map[u][v] == '*') continue;
+                if (map[u][v] == '5' || map[u][v] == '2' || map[u][v] == '3' || map[u][v] == '4' || map[u][v] == '#' || map[u][v] == '*')
+                    continue;
                 if (distanceFromEnemy[u][v] >= 0) continue;
                 distanceFromEnemy[u][v] = distanceFromEnemy[top.getX()][top.getY()] + 1;
                 queue.add(new Pair(u, v));
@@ -154,8 +155,8 @@ public abstract class AI
         }
 
         // caculate for Doria (4)
-        for(int i = 0; i < m; i++)
-            for(int j = 0; j < n; j++)
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
                 if (map[i][j] == '4')
                 {
                     queue.add(new Pair(i, j));
@@ -164,13 +165,15 @@ public abstract class AI
         while (!queue.isEmpty())
         {
             Pair top = queue.remove();
-            for(int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++)
             {
                 int u = top.getX();
                 int v = top.getY();
                 if (!validate(u, v)) continue;
-                if (map[u][v] == '5' || map[u][v] == '2' || map[u][v] == '3' || map[u][v] == '4' || map[u][v] == '#') continue;
-                if (distanceFromEnemy[u][v] != -1 && distanceFromEnemy[u][v] <= distanceFromEnemy[top.getX()][top.getY()] + 1) continue;
+                if (map[u][v] == '5' || map[u][v] == '2' || map[u][v] == '3' || map[u][v] == '4' || map[u][v] == '#')
+                    continue;
+                if (distanceFromEnemy[u][v] != -1 && distanceFromEnemy[u][v] <= distanceFromEnemy[top.getX()][top.getY()] + 1)
+                    continue;
                 distanceFromEnemy[u][v] = distanceFromEnemy[top.getX()][top.getY()] + 1;
                 queue.add(new Pair(u, v));
             }
@@ -199,10 +202,10 @@ public abstract class AI
             return;
         }
         map = new char[m][n];
-        for(int i = 0; i < m; i++)
-            for(int j = 0; j < n; j++)
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
                 map[i][j] = temp[j][i];
-        for(int i = 0; i < m; i++)
+        for (int i = 0; i < m; i++)
         {
             for (int j = 0; j < n; j++)
             {
@@ -212,7 +215,6 @@ public abstract class AI
         }
         System.out.println();
         System.out.println();
-
 
 
     }

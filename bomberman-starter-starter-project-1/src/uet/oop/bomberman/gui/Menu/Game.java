@@ -1,16 +1,18 @@
 package uet.oop.bomberman.gui.Menu;
 
-import uet.oop.bomberman.gui.Frame;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import javax.swing.*;
+import uet.oop.bomberman.gui.Frame;
 
 
-public class Game extends JMenu {
+public class Game extends JMenu
+{
     public Frame frame;
-    public Game(Frame frame) {
+
+    public Game(Frame frame)
+    {
         super("Game");
         this.frame = frame;
         JMenuItem newgame = new JMenuItem("NEW GAME");
@@ -34,23 +36,33 @@ public class Game extends JMenu {
         add(resume);
 
     }
-    class MenuActionListener implements ActionListener {
+
+    class MenuActionListener implements ActionListener
+    {
         public Frame _frame;
-        public MenuActionListener(Frame frame) {
+
+        public MenuActionListener(Frame frame)
+        {
             _frame = frame;
         }
+
         @Override
-        public void actionPerformed(ActionEvent e) {
-            if(e.getActionCommand().equals("NEW GAME")) {
+        public void actionPerformed(ActionEvent e)
+        {
+            if (e.getActionCommand().equals("NEW GAME"))
+            {
                 _frame.newGame();
             }
-            if(e.getActionCommand().equals("RESTART")) {
+            if (e.getActionCommand().equals("RESTART"))
+            {
                 _frame.restart();
             }
-            if(e.getActionCommand().equals("PAUSE")) {
+            if (e.getActionCommand().equals("PAUSE"))
+            {
                 _frame.pause();
             }
-            if(e.getActionCommand().equals("RESUME")) {
+            if (e.getActionCommand().equals("RESUME"))
+            {
                 _frame.resume();
             }
         }

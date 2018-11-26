@@ -22,13 +22,11 @@ import uet.oop.bomberman.level.Coordinates;
 public abstract class Enemy extends Character
 {
 
-    protected int _points;
-
-    protected double _speed;
-    protected AI _ai;
-
     protected final double MAX_STEPS;
     protected final double rest;
+    protected int _points;
+    protected double _speed;
+    protected AI _ai;
     protected double _steps;
 
     protected int _finalAnimation = 30;

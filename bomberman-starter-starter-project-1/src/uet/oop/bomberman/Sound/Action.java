@@ -1,16 +1,10 @@
 package uet.oop.bomberman.Sound;
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
 import java.applet.Applet;
 import java.applet.AudioClip;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
-public class Action {
+public class Action
+{
     /*
 	|--------------------------------------------------------------------------
 	| Character Actions

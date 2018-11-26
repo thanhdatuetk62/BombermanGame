@@ -8,57 +8,62 @@ import uet.oop.bomberman.graphics.Screen;
 /**
  * Bao gồm Bomber và Enemy
  */
-public abstract class Character extends AnimatedEntitiy {
-	
-	protected Board _board;
-	protected int _direction = -1;
-	protected boolean _alive = true;
-	protected boolean _moving = false;
-	public int _timeAfter = 70;
-	
-	public Character(int x, int y, Board board) {
-		_x = x;
-		_y = y;
-		_board = board;
-	}
-	
-	@Override
-	public abstract void update();
-	
-	@Override
-	public abstract void render(Screen screen);
+public abstract class Character extends AnimatedEntitiy
+{
 
-	/**
-	 * Tính toán hướng đi
-	 */
-	protected abstract void calculateMove();
-	
-	protected abstract void move(double xa, double ya);
+    public int _timeAfter = 70;
+    protected Board _board;
+    protected int _direction = -1;
+    protected boolean _alive = true;
+    protected boolean _moving = false;
 
-	/**
-	 * Được gọi khi đối tượng bị tiêu diệt
-	 */
-	public abstract void kill();
+    public Character(int x, int y, Board board)
+    {
+        _x = x;
+        _y = y;
+        _board = board;
+    }
 
-	/**
-	 * Xử lý hiệu ứng bị tiêu diệt
-	 */
-	protected abstract void afterKill();
+    @Override
+    public abstract void update();
 
-	/**
-	 * Kiểm tra xem đối tượng có di chuyển tới vị trí đã tính toán hay không
-	 * @param x
-	 * @param y
-	 * @return
-	 */
-	protected abstract boolean canMove(double x, double y);
+    @Override
+    public abstract void render(Screen screen);
 
-	protected double getXMessage() {
-		return (_x * Game.SCALE) + (_sprite.SIZE / 2 * Game.SCALE);
-	}
-	
-	protected double getYMessage() {
-		return (_y* Game.SCALE) - (_sprite.SIZE / 2 * Game.SCALE);
-	}
-	
+    /**
+     * Tính toán hướng đi
+     */
+    protected abstract void calculateMove();
+
+    protected abstract void move(double xa, double ya);
+
+    /**
+     * Được gọi khi đối tượng bị tiêu diệt
+     */
+    public abstract void kill();
+
+    /**
+     * Xử lý hiệu ứng bị tiêu diệt
+     */
+    protected abstract void afterKill();
+
+    /**
+     * Kiểm tra xem đối tượng có di chuyển tới vị trí đã tính toán hay không
+     *
+     * @param x
+     * @param y
+     * @return
+     */
+    protected abstract boolean canMove(double x, double y);
+
+    protected double getXMessage()
+    {
+        return (_x * Game.SCALE) + (_sprite.SIZE / 2 * Game.SCALE);
+    }
+
+    protected double getYMessage()
+    {
+        return (_y * Game.SCALE) - (_sprite.SIZE / 2 * Game.SCALE);
+    }
+
 }

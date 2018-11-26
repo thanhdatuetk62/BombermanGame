@@ -1,11 +1,10 @@
 /**
- *
  * @Author: longhoang08 - Long Hoang Bao
  */
- 
+
 package uet.oop.bomberman.library;
 
-public class Pair 
+public class Pair
 {
     int x, y;
 
