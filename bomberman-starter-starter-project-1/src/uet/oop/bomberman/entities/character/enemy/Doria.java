@@ -7,7 +7,6 @@ import uet.oop.bomberman.entities.character.ai.AIHigh;
 import uet.oop.bomberman.entities.tile.Wall;
 import uet.oop.bomberman.graphics.Sprite;
 import uet.oop.bomberman.level.Coordinates;
-import uet.oop.bomberman.library.Pair;
 
 public class Doria extends Enemy
 {

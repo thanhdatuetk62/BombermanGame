@@ -77,9 +77,9 @@ public abstract class AI
             Pair top = queue.remove();
             int u = top.getX();
             int v = top.getY();
-            for(int j = 0; j < 4; j++)
+            for (int j = 0; j < 4; j++)
             {
-                for(int i = 1; i <= Game.getBombRadius(); i++)
+                for (int i = 1; i <= Game.getBombRadius(); i++)
                 {
                     int x = u + hX[j] * i;
                     int y = v + hY[j] * i;

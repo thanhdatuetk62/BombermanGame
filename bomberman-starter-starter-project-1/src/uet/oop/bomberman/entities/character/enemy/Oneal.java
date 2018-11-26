@@ -5,7 +5,6 @@ import uet.oop.bomberman.Board;
 import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.character.ai.AIMedium;
 import uet.oop.bomberman.graphics.Sprite;
-import uet.oop.bomberman.library.Pair;
 
 public class Oneal extends Enemy
 {

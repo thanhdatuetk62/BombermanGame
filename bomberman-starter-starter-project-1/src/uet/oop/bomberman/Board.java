@@ -508,8 +508,7 @@ public class Board implements IRender
 
     public char[][] reviveMap()
     {
-        if (_map != null)
-            updateMap();
+        if (_map != null) updateMap();
         return _map;
     }
 }

@@ -1,7 +1,6 @@
 package uet.oop.bomberman.entities.character.ai;
 
 import java.util.ArrayList;
-import uet.oop.bomberman.Game;
 import uet.oop.bomberman.library.Pair;
 import uet.oop.bomberman.library.Queue;
 
@@ -83,9 +82,8 @@ public abstract class AIEnemy extends AI
             boolean canAlive = false;
             int curDistance = dangerDistance[_x][_y];
             int distanceToBomber = m * n;
-            if (curDistance == -1)
-                return 0;
-            for(int i = 0; i < 4; i++)
+            if (curDistance == -1) return 0;
+            for (int i = 0; i < 4; i++)
             {
                 int x = _x + hX[i];
                 int y = _y + hY[i];
@@ -96,8 +94,7 @@ public abstract class AIEnemy extends AI
                     curDistance = dangerDistance[x][y];
                     direction = i;
                     distanceToBomber = distance[x][y];
-                }
-                else if (dangerDistance[x][y] == curDistance)
+                } else if (dangerDistance[x][y] == curDistance)
                 {
                     if (distanceToBomber == -1 || distanceToBomber > distance[x][y])
                     {
@@ -107,7 +104,7 @@ public abstract class AIEnemy extends AI
                 }
             }
             if (direction == -1) direction = random.nextInt(4);
-            return  direction;
+            return direction;
         }
         // or not, it will try to catch bomber
         else
@@ -127,10 +124,10 @@ public abstract class AIEnemy extends AI
             */
             int direction = -1;
             int[] die = new int[4];
-            for(int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++)
                 die[i] = 0;
             int curDistance = distance[_x][_y];
-            for(int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++)
             {
                 int x = _x + hX[i];
                 int y = _y + hY[i];
@@ -138,7 +135,8 @@ public abstract class AIEnemy extends AI
                 {
                     die[i] = 1;
                     continue;
-                };
+                }
+                ;
                 if (inDanger[x][y])
                 {
                     die[i] = 2;
@@ -153,14 +151,12 @@ public abstract class AIEnemy extends AI
             }
             if (direction == -1)
             {
-                for(int i = 0; i < 4; i++)
+                for (int i = 0; i < 4; i++)
                     if (die[i] == 0) return i;
-                for(int i = 0; i < 4; i++)
+                for (int i = 0; i < 4; i++)
                     if (die[i] == 1) return i;
                 return 0;
-            }
-            else
-                return  direction;
+            } else return direction;
         }
     }
 
