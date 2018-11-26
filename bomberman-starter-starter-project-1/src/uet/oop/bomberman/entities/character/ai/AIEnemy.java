@@ -23,14 +23,11 @@ public abstract class AIEnemy extends AI
         }
     }
 
-    private boolean validate(int u, int v)
-    {
-        return (0 <= u && u < Game.levelWidth && 0 <= v && v < Game.levelHeight);
-    }
 
     // caculate best Direction by distance
     protected int bestDirection(int _x, int _y)
     {
+
         int sX = -1, sY = -1;
         for(int i = 0; i < m; i++)
             for(int j = 0; j < n; j++)

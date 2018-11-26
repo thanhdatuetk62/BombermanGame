@@ -11,7 +11,6 @@ public class AIHigh extends AI
     {
         canGo.replace('*', true);
         this.board = board;
-        caclCurrentMap();
     }
 
     /*
@@ -23,6 +22,7 @@ public class AIHigh extends AI
     @Override
     public int calculateDirection()
     {
+        calcCurrentMap();
         // TODO: cài đặt thuật toán tìm đường đi
         return 1;
     }

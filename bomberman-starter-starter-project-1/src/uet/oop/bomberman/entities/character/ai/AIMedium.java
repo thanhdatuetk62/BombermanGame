@@ -8,7 +8,6 @@ public class AIMedium extends AI
     public AIMedium(Board board)
     {
         this.board = board;
-        caclCurrentMap();
     }
 
     /*
@@ -21,7 +20,8 @@ public class AIMedium extends AI
     public int calculateDirection()
     {
         // TODO: cài đặt thuật toán tìm đường đi
-
+        calcCurrentMap();
+        initDistace();
         return 1;
     }
 

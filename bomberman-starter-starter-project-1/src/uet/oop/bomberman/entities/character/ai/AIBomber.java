@@ -6,10 +6,10 @@ public class AIBomber extends AI
 {
     public AIBomber(Board board) {
         this.board = board;
-        caclCurrentMap();
     }
     public int calculateDirection()
     {
+        calcCurrentMap();
         return random.nextInt(4);
     }
 }
