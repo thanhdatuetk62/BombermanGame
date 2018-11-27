@@ -37,10 +37,7 @@ public abstract class AIEnemy extends AI
                     break;
                 }
             }
-        if (sX == -1)
-        {
-            return 2;
-        }
+
         Pair s = new Pair(sX, sY);
         Queue<Pair> queue = new Queue<Pair>();
         int[][] distance = new int[m][n];

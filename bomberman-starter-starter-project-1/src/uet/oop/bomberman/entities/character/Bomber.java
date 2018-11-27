@@ -50,7 +50,7 @@ public class Bomber extends Character
         _bombs = _board.getBombs();
         _input = _board.getInput();
         _sprite = Sprite.player_right;
-        _ai = new AIBomber(_board);
+        _ai = new AIBomber(_board, this);
         maxSteps = (int) Math.round(Game.TILES_SIZE / Game.getBomberSpeed());
         steps = maxSteps + 1;
     }
@@ -88,6 +88,11 @@ public class Bomber extends Character
     {
         int xScroll = Screen.calculateXOffset(_board, this);
         Screen.setOffset(xScroll, 0);
+    }
+
+    public boolean isPlaceBomb()
+    {
+        return isPlaceBomb;
     }
 
     /**
@@ -201,6 +206,7 @@ public class Bomber extends Character
         {
             steps = maxSteps;
             direction = _ai.calculateDirection();
+            System.out.println(direction);
         }
 
         switch (direction)
