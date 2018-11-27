@@ -25,7 +25,7 @@ public class AIBomber extends AI
             add('f');
             add('s');
             add('4');
-            add('*');
+            //add('*');
         }};
         for (char c : canGoThrought)
         {
@@ -125,12 +125,49 @@ public class AIBomber extends AI
                 System.out.println("CHET ME ROI");
                 return random.nextInt(4);
             }
+            int[][] d = bfs();
+            boolean ok = false;
+
+            System.out.println("DEBUG TIME!!!!");
+            for(int i = 0; i < m; i++)
+            {
+                for(int j = 0; j < n; j++)
+                    System.out.print(map[i][j]);
+                System.out.println();
+            }
+            System.out.println();
+
+
+            System.out.println("Danger Distance");
+            for(int i = 0; i < n; i++)  System.out.printf("%2d ",i);
+            System.out.println();
+            for(int i = 0; i < m; i++)
+            {
+                for(int j = 0; j < n; j++)
+                    System.out.printf("%2d ",dangerDistance[i][j]);
+                System.out.println();
+            }
+            System.out.println();
+            System.out.println();
+
+            System.out.println("Distence Enemy");
+            for(int i = 0; i < n; i++)  System.out.printf("%2d ",i);
+            System.out.println();
+            for(int i = 0; i < m; i++)
+            {
+                for(int j = 0; j < n; j++)
+                    System.out.printf("%2d ",distanceFromEnemy[i][j]);
+                System.out.println();
+            }
+            System.out.println();
+            System.out.println();
+
             for(int i = 0; i < 4; i++)
             {
                 int u = x + hX[i];
                 int v = y + hY[i];
                 if (!validate(u, v)) continue;
-                if (dangerDistance[u][v] == -1) continue;;
+                if (dangerDistance[u][v] == -1) continue;
                 if (dangerDistance[u][v] < curDistance)
                 {
                     curDistance = dangerDistance[u][v];
@@ -139,10 +176,21 @@ public class AIBomber extends AI
                 }
                 else if (dangerDistance[u][v] == curDistance)
                 {
-                    if (curAns < distanceFromEnemy[u][v])
+                    if (ok)
                     {
-                        curAns = distanceFromEnemy[u][v];
-                        direction = i;
+                        if (curAns > distanceFromEnemy[u][v] || curAns == -1)
+                        {
+                            curAns = distanceFromEnemy[u][v];
+                            direction = i;
+                        }
+                    }
+                    else
+                    {
+                        if (curAns < distanceFromEnemy[u][v])
+                        {
+                            curAns = distanceFromEnemy[u][v];
+                            direction = i;
+                        }
                     }
                 }
             }
@@ -153,11 +201,12 @@ public class AIBomber extends AI
         {
             int[][] d = bfs();
             int curDistance = d[x][y];
-            if (curDistance <= Game.getBombRadius() && !bomber.canPlaceBomb())
+            System.out.println(curDistance);
+            if (curDistance <= Game.getBombRadius() && bomber.canPlaceBomb())
             {
                 return 4;
             }
-            else if (curDistance <= Game.getBombRadius() + 2)
+            else if (curDistance <= Game.getBombRadius() + 1)
             {
                 // tim cach chay xa khoi Enemy
                 int direction = -1;
@@ -177,7 +226,7 @@ public class AIBomber extends AI
                 }
                 if (direction != -1)
                     return  direction;
-                return 4;
+                return random.nextInt(4);
             }
             int direction = -1;
             boolean boom = false;

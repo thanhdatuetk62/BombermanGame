@@ -42,6 +42,7 @@ public abstract class AI
             add('2');
             add('3');
             add('4');
+            add('5');
             add('b');
             add('f');
             add('s');
@@ -116,8 +117,8 @@ public abstract class AI
             Pair top = queue.remove();
             for (int i = 0; i < 4; i++)
             {
-                int u = top.getX();
-                int v = top.getY();
+                int u = top.getX() + hX[i];
+                int v = top.getY() + hY[i];
                 if (!validate(u, v)) continue;
                 if (map[u][v] == '5' || map[u][v] == '2' || map[u][v] == '3' || map[u][v] == '4' || map[u][v] == '#' || map[u][v] == '*')
                     continue;
@@ -140,8 +141,8 @@ public abstract class AI
             Pair top = queue.remove();
             for (int i = 0; i < 4; i++)
             {
-                int u = top.getX();
-                int v = top.getY();
+                int u = top.getX() + hX[i];
+                int v = top.getY() + hY[i];
                 if (!validate(u, v)) continue;
                 if (map[u][v] == '5' || map[u][v] == '2' || map[u][v] == '3' || map[u][v] == '4' || map[u][v] == '#')
                     continue;
