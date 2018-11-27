@@ -16,6 +16,7 @@ public abstract class AIEnemy extends AI
             add(' ');
             add('x');
             add('p');
+            add('5');
             add('b');
             add('f');
             add('s');

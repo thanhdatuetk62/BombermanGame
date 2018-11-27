@@ -120,7 +120,7 @@ public abstract class AI
                 int u = top.getX() + hX[i];
                 int v = top.getY() + hY[i];
                 if (!validate(u, v)) continue;
-                if (map[u][v] == '5' || map[u][v] == '2' || map[u][v] == '3' || map[u][v] == '4' || map[u][v] == '#' || map[u][v] == '*')
+                if (map[u][v] == '2' || map[u][v] == '3' || map[u][v] == '4' || map[u][v] == '#' || map[u][v] == '*')
                     continue;
                 if (distanceFromEnemy[u][v] >= 0) continue;
                 distanceFromEnemy[u][v] = distanceFromEnemy[top.getX()][top.getY()] + 1;
@@ -144,7 +144,7 @@ public abstract class AI
                 int u = top.getX() + hX[i];
                 int v = top.getY() + hY[i];
                 if (!validate(u, v)) continue;
-                if (map[u][v] == '5' || map[u][v] == '2' || map[u][v] == '3' || map[u][v] == '4' || map[u][v] == '#')
+                if (map[u][v] == '2' || map[u][v] == '3' || map[u][v] == '4' || map[u][v] == '#')
                     continue;
                 if (distanceFromEnemy[u][v] != -1 && distanceFromEnemy[u][v] <= distanceFromEnemy[top.getX()][top.getY()] + 1)
                     continue;

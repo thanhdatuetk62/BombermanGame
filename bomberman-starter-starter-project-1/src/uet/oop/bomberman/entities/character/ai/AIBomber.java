@@ -11,6 +11,9 @@ import uet.oop.bomberman.library.Queue;
 public class AIBomber extends AI
 {
     protected Bomber bomber;
+
+    private static int preDirection;
+    private static int count;
     public AIBomber(Board board, Bomber bomber)
     {
         this.board = board;
@@ -66,16 +69,41 @@ public class AIBomber extends AI
     {
         calcCurrentMap();
         initDistace();
-        return bestDirection();
+        int temp = bestDirection();
+        if (temp + preDirection == 3)
+        {
+            count++;
+            if (count == 4)
+            {
+                count = 0;
+                System.out.println("FALL");
+                preDirection =  4;
+                return  preDirection;
+            }
+            //System.out.println("FALL");
+
+        }
+        preDirection = temp;
+        return  temp;
     }
 
     private int[][] bfs()
     {
         int d[][] = new int[m][n];
         Queue <Pair> queue = new Queue<>();
+        char c = '2';
+        int countSmart = 0;
         for(int i = 0; i < m; i++)
             for(int j = 0; j < n; j++)
-                if ('1' <= map[i][j] && map[i][j] <= '3')
+            {
+                if (map[i][j] == '2' || map[i][j] == '3')
+                    countSmart++;
+            }
+        if (countSmart == 0)
+            c = '1';
+        for(int i = 0; i < m; i++)
+            for(int j = 0; j < n; j++)
+                if (map[i][j] == '2' || map[i][j] == '3' || map[i][j] == c)
                 {
                     queue.add(new Pair(i, j));
                     d[i][j] = 0;
@@ -102,6 +130,13 @@ public class AIBomber extends AI
 
     private int bestDirection()
     {
+        int countSmart = 0;
+        for(int i = 0; i < m; i++)
+            for(int j = 0; j < n; j++)
+            {
+                if (map[i][j] == '2' || map[i][j] == '3')
+                    countSmart++;
+            }
         int x = -1, y = -1;
         for (int i = 0; i < m; i++)
             for (int j = 0; j < n; j++)
@@ -119,48 +154,21 @@ public class AIBomber extends AI
         {
             int direction = -1;
             int curAns = m * n;
+            if (countSmart == 0)
+                distanceFromEnemy = bfs();
             int curDistance = dangerDistance[x][y];
             if (curDistance == -1)
             {
                 System.out.println("CHET ME ROI");
                 return random.nextInt(4);
             }
-            int[][] d = bfs();
+            int[][] d = distanceFromEnemy;
             boolean ok = false;
 
-            System.out.println("DEBUG TIME!!!!");
-            for(int i = 0; i < m; i++)
-            {
-                for(int j = 0; j < n; j++)
-                    System.out.print(map[i][j]);
-                System.out.println();
-            }
-            System.out.println();
+            if (distanceFromEnemy[x][y] > Game.getBombRadius() + 3)
+                ok = true;
 
 
-            System.out.println("Danger Distance");
-            for(int i = 0; i < n; i++)  System.out.printf("%2d ",i);
-            System.out.println();
-            for(int i = 0; i < m; i++)
-            {
-                for(int j = 0; j < n; j++)
-                    System.out.printf("%2d ",dangerDistance[i][j]);
-                System.out.println();
-            }
-            System.out.println();
-            System.out.println();
-
-            System.out.println("Distence Enemy");
-            for(int i = 0; i < n; i++)  System.out.printf("%2d ",i);
-            System.out.println();
-            for(int i = 0; i < m; i++)
-            {
-                for(int j = 0; j < n; j++)
-                    System.out.printf("%2d ",distanceFromEnemy[i][j]);
-                System.out.println();
-            }
-            System.out.println();
-            System.out.println();
 
             for(int i = 0; i < 4; i++)
             {
@@ -186,7 +194,7 @@ public class AIBomber extends AI
                     }
                     else
                     {
-                        if (curAns < distanceFromEnemy[u][v])
+                        if (curAns < distanceFromEnemy[u][v] || distanceFromEnemy[u][v] == 1)
                         {
                             curAns = distanceFromEnemy[u][v];
                             direction = i;
@@ -230,6 +238,29 @@ public class AIBomber extends AI
             }
             int direction = -1;
             boolean boom = false;
+
+            System.out.println("DEBUG TIME");
+            for(int i = 0; i < m; i++)
+            {
+                for(int j = 0; j < n; j++)
+                {
+                    System.out.print(map[i][j]);
+                }
+                System.out.println();
+            }
+            System.out.println();
+
+            System.out.println("DEBUG Distance");
+            for(int i = 0; i < m; i++)
+            {
+                for(int j = 0; j < n; j++)
+                {
+                    System.out.printf("%2d ", d[i][j]);
+                }
+                System.out.println();
+            }
+            System.out.println();
+
             for(int i = 0; i < 4; i++)
             {
                 int u = x + hX[i];
@@ -237,10 +268,19 @@ public class AIBomber extends AI
                 if (!validate(u, v)) continue;
                 if (inDanger[u][v]) continue;
                 if (d[u][v] == -1) continue;
-                if (d[u][v] < curDistance)
+                if (d[u][v] < curDistance || curDistance == -1)
                 {
                     curDistance = d[u][v];
                     direction = i;
+                    if (map[u][v] == '*')
+                        boom = true;
+                    else boom = false;
+                }
+                else if (d[u][v] == curDistance)
+                {
+                    int temp = random.nextInt(4);
+                    if (temp == 1)
+                        direction = i;
                     if (map[u][v] == '*')
                         boom = true;
                     else boom = false;
