@@ -30,17 +30,19 @@ public abstract class AIEnemy extends AI
     protected int bestDirection(int _y, int _x)
     {
         int sX = -1, sY = -1;
-        for (int i = 0; i < m; i++)
-            for (int j = 0; j < n; j++)
-            {
-                if (map[i][j] == 'p' || map[i][j] == '5')
-                {
+        for (int i = 0; i < m; i++) {
+            boolean breakable = false;
+            for (int j = 0; j < n; j++) {
+                if (map[i][j] == 'p' || map[i][j] == '5') {
                     sX = i;
                     sY = j;
+                    breakable = true;
                     break;
                 }
             }
-
+            if(breakable) break;
+            sX =0; sY = 0;
+        }
         Pair s = new Pair(sX, sY);
         Queue<Pair> queue = new Queue<Pair>();
         int[][] distance = new int[m][n];

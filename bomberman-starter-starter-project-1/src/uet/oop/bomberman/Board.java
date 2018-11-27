@@ -144,11 +144,13 @@ public class Board implements IRender
     public void newGame()
     {
         loadLevel(1);
+        resetProperties();
     }
 
     public void restart()
     {
         loadLevel(_levelLoader.getLevel());
+        resetProperties();
     }
 
     public void endGame()

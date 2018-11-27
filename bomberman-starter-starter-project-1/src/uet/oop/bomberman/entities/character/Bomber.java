@@ -268,6 +268,10 @@ public class Bomber extends Character
                 countTime = 0;
                 isPlaceBomb = true;
                 break;
+            default:
+                _moving = false;
+                countTime = 0;
+                break;
         }
     }
 
