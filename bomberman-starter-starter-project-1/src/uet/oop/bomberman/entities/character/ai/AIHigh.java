@@ -13,6 +13,7 @@ public class AIHigh extends AIEnemy
 
     public AIHigh(Board board, Enemy enemy)
     {
+        super(false);               //TODO: TEST
         canGo.replace('*', true);
         canGo.replace('3', true);
         this.board = board;

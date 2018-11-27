@@ -10,7 +10,6 @@ import uet.oop.bomberman.library.Queue;
 
 public abstract class AI
 {
-    protected boolean canMove = true;
     protected Random random = new Random();
     protected Board board;
     protected HashMap<Character, Boolean> canGo;
@@ -182,4 +181,5 @@ public abstract class AI
     }
 
     public abstract int calculateDirection();
+
 }

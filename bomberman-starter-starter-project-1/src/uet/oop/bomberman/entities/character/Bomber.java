@@ -137,7 +137,19 @@ public class Bomber extends Character
         t.start();
         Game.addBombRate(-1);
     }
-
+    protected boolean canPlaceBomb() {
+        Entity downthere = _board.getEntity(_x, _y, this);
+        if(downthere instanceof LayeredEntity)
+        {
+            if(((LayeredEntity) downthere).getTopEntity() instanceof Portal)
+                return false;
+        }
+        if(downthere instanceof Bomb||downthere instanceof Enemy)
+            return false;
+        if(_timeBetweenPutBombs>=0 || Game.getBombRate()<=0)
+            return false;
+        return true;
+    }
     private void clearBombs()
     {
         Iterator<Bomb> bs = _bombs.iterator();
@@ -537,5 +549,8 @@ public class Bomber extends Character
     public void setAuto(boolean q)
     {
         _auto = q;
+    }
+    public void setPlaceBomb(boolean q) {
+        isPlaceBomb = q;
     }
 }
