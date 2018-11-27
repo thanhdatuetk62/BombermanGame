@@ -239,6 +239,12 @@ public abstract class Enemy extends Character
 
         if (e instanceof Bomber)
         {
+            int leftX = Coordinates.pixelToTile(e.getX() + Game.TILES_SIZE / 6);
+            int rightX = Coordinates.pixelToTile(e.getX() + Game.TILES_SIZE * 4 / 6);
+            int bottomY = Coordinates.pixelToTile(e.getY() - Game.TILES_SIZE / 6);
+            int topY = Coordinates.pixelToTile(e.getY() - Game.TILES_SIZE * 4 / 6);
+            if ((leftX == getXTile() && e.getYTile() == getYTile()) || (rightX == getXTile() && e.getYTile() == getYTile())) ((Bomber) e).kill();
+            if ((e.getXTile() == getXTile() && bottomY == getYTile()) || (e.getXTile() == getXTile() && topY == getYTile())) ((Bomber) e).kill();
             if (e.getXTile() == getXTile() && e.getYTile() == getYTile()) ((Bomber) e).kill();
         }
         // TODO: xử lý va chạm với Bomber

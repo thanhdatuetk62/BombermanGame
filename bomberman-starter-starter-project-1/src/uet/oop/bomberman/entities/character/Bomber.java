@@ -143,7 +143,7 @@ public class Bomber extends Character
         Game.addBombRate(-1);
     }
     public boolean canPlaceBomb() {
-        Entity downthere = _board.getEntity(_x, _y, this);
+        Entity downthere = _board.getEntity(getXTile(), getYTile(), this);
         if(downthere instanceof LayeredEntity)
         {
             if(((LayeredEntity) downthere).getTopEntity() instanceof Portal)
