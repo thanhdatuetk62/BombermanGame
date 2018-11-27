@@ -153,7 +153,7 @@ public class AIBomber extends AI
         {
             int[][] d = bfs();
             int curDistance = d[x][y];
-            if (curDistance <= Game.getBombRadius() && !bomber.isPlaceBomb())
+            if (curDistance <= Game.getBombRadius() && !bomber.canPlaceBomb())
             {
                 return 4;
             }

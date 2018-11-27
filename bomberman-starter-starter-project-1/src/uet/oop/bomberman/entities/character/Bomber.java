@@ -142,7 +142,7 @@ public class Bomber extends Character
         t.start();
         Game.addBombRate(-1);
     }
-    protected boolean canPlaceBomb() {
+    public boolean canPlaceBomb() {
         Entity downthere = _board.getEntity(_x, _y, this);
         if(downthere instanceof LayeredEntity)
         {
