@@ -49,9 +49,11 @@ public class Flame extends Entity
          */
         boolean last = false;
         // TODO: tạo các segment dưới đây
-        _flameSegments = new FlameSegment[calculatePermitedDistance()];
-        for (int i = 0; i < calculatePermitedDistance(); i++)
+        int length = calculatePermitedDistance();
+        _flameSegments = new FlameSegment[length];
+        for (int i = 0; i < length; i++)
         {
+
             if (i == calculatePermitedDistance() - 1) last = true;
             if (_direction == 0)
             {
@@ -99,8 +101,10 @@ public class Flame extends Entity
                     Entity top = ((LayeredEntity) barrier).getTopEntity();
                     if (top instanceof DestroyableTile)
                     {
-                        ((DestroyableTile) top).destroy();
-                        return i;
+                        if(!((DestroyableTile) top).is_destroyed()) {
+                            ((DestroyableTile) top).destroy();
+                            return i;
+                        }
                     }
                 }
             }
@@ -116,8 +120,10 @@ public class Flame extends Entity
                     Entity top = ((LayeredEntity) barrier).getTopEntity();
                     if (top instanceof DestroyableTile)
                     {
-                        ((DestroyableTile) top).destroy();
-                        return i;
+                        if(!((DestroyableTile) top).is_destroyed()) {
+                            ((DestroyableTile) top).destroy();
+                            return i;
+                        }
                     }
                 }
             }
@@ -133,8 +139,10 @@ public class Flame extends Entity
                     Entity top = ((LayeredEntity) barrier).getTopEntity();
                     if (top instanceof DestroyableTile)
                     {
-                        ((DestroyableTile) top).destroy();
-                        return i;
+                        if(!((DestroyableTile) top).is_destroyed()) {
+                            ((DestroyableTile) top).destroy();
+                            return i;
+                        }
                     }
                 }
             }
@@ -150,8 +158,10 @@ public class Flame extends Entity
                     Entity top = ((LayeredEntity) barrier).getTopEntity();
                     if (top instanceof DestroyableTile)
                     {
-                        ((DestroyableTile) top).destroy();
-                        return i;
+                        if(!((DestroyableTile) top).is_destroyed()) {
+                            ((DestroyableTile) top).destroy();
+                            return i;
+                        }
                     }
                 }
             }

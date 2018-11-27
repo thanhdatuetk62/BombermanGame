@@ -71,5 +71,7 @@ public class DestroyableTile extends Tile
 
         return x2;
     }
-
+    public boolean is_destroyed() {
+        return _destroyed;
+    }
 }
