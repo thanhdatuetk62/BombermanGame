@@ -202,7 +202,7 @@ public class AIBomber extends AI
             int[][] d = bfs();
             int curDistance = d[x][y];
             System.out.println(curDistance);
-            if (curDistance <= Game.getBombRadius() && bomber.canPlaceBomb())
+            if (curDistance <= Game.getBombRadius() + 1 && bomber.canPlaceBomb())
             {
                 return 4;
             }
@@ -248,6 +248,21 @@ public class AIBomber extends AI
             }
             if (boom == true)
                 return 4;
+
+            curDistance = d[x][y];
+            for(int i = 0; i < 4; i++)
+            {
+                int u = x + hX[i];
+                int v = y + hY[i];
+                if (!validate(u, v)) continue;
+                if (inDanger[u][v]) continue;
+                if (d[u][v] == -1) continue;
+                if (d[u][v] > curDistance)
+                {
+                    curDistance = d[u][v];
+                    direction = i;
+                }
+            }
             //if (direction == -1) direction = random.nextInt(4);
             return direction;
         }
