@@ -3,6 +3,9 @@ package uet.oop.bomberman.entities.character.ai;
 // using for Ballon Enemy
 public class AILow extends AIEnemy
 {
+    public AILow() {
+        super(false);
+    }
     private int currentDirect;
 
     /*

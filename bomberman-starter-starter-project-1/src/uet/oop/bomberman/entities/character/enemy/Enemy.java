@@ -32,7 +32,6 @@ public abstract class Enemy extends Character
     protected int _finalAnimation = 30;
     protected Sprite _deadSprite;
     private int currentDirect = 0;
-
     public Enemy(int x, int y, Board board, Sprite dead, double speed, int points)
     {
         super(x, y, board);
@@ -112,6 +111,7 @@ public abstract class Enemy extends Character
         if (!_alive) return;
         if (!canMove(xa, ya))
         {
+            soften(xa, ya);
             _moving = true;
             return;
         }
@@ -121,6 +121,55 @@ public abstract class Enemy extends Character
         if (_x < xa) _direction = 1;
         _y = ya;
         _x = xa;
+    }
+    private void soften(double xa, double ya)
+    {
+        if (xa != _x && _y == ya)
+        {
+            double near1 = ((int) ya / Game.TILES_SIZE) * Game.TILES_SIZE;
+            double near2 = ((int) ya / Game.TILES_SIZE + 1) * Game.TILES_SIZE;
+            if (ya - near1 <= 8)
+            {
+                if (canMove(xa, near1))
+                {
+                    _y--;
+                    soften(xa, ya--);
+                    if (xa > _x) _direction = 4;
+                    else _direction = 3;
+                }
+            }
+            if (near2 - ya <= 8)
+            {
+                if (canMove(xa, near2))
+                {
+                    _y++;
+                    move(xa, ya++);
+                    if (xa > _x) _direction = 4;
+                    else _direction = 3;
+                }
+            }
+        } else if (xa == _x && _y != ya)
+        {
+            double near1 = ((int) xa / Game.TILES_SIZE) * Game.TILES_SIZE;
+            double near2 = ((int) xa / Game.TILES_SIZE + 1) * Game.TILES_SIZE;
+            if (xa - near1 <= 8)
+            {
+                if (canMove(near1, ya))
+                {
+                    _x--;
+                    soften(xa--, ya);
+                }
+            }
+            if (near2 - xa <= 8)
+            {
+                if (canMove(near2, ya))
+                {
+                    _x++;
+                    soften(xa++, ya);
+                    _direction = 1;
+                }
+            }
+        }
     }
 
     @Override
@@ -223,4 +272,11 @@ public abstract class Enemy extends Character
     }
 
     protected abstract void chooseSprite();
+
+    public void setSpeed(double s) {
+        _speed = s;
+    }
+    public double getSpeed() {
+        return _speed;
+    }
 }

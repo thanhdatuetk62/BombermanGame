@@ -116,7 +116,7 @@ public class Board implements IRender
         _bombs.clear();
         _messages.clear();
         //TODO: Addition
-        resetProperties();
+        resetPropertiesButKeepScore();
         Screen.setOffset(0, 0);
         Thread t = new Thread(new Sound(Action.pass, false));
         t.start();
@@ -190,7 +190,11 @@ public class Board implements IRender
         _game.bombRadius = 1;
         _game.bombRate = 1;
     }
-
+    private void resetPropertiesButKeepScore() {
+        _game.bomberSpeed = 1.0;
+        _game.bombRadius = 1;
+        _game.bombRate = 1;
+    }
     public boolean detectNoEnemies()
     {
         int total = 0;

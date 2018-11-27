@@ -1,6 +1,7 @@
 package uet.oop.bomberman.entities.character.ai;
 
 import uet.oop.bomberman.Board;
+import uet.oop.bomberman.Game;
 import uet.oop.bomberman.entities.character.enemy.Enemy;
 import uet.oop.bomberman.library.Pair;
 import uet.oop.bomberman.library.Queue;
@@ -9,9 +10,11 @@ import uet.oop.bomberman.library.Queue;
 public class AIMedium extends AIEnemy
 {
     Enemy enemy;
-
-    public AIMedium(Board board, Enemy enemy)
+    boolean canChangeSpeed = false;
+    public AIMedium(Board board, Enemy enemy, boolean b)
     {
+        super(b);
+        this.canChangeSpeed = b;
         canGo.replace('2', true);
         this.board = board;
         this.enemy = enemy;
@@ -59,6 +62,12 @@ public class AIMedium extends AIEnemy
         calcCurrentMap();
         if (map == null) return 1;
         initDistace();
+        if(canChangeSpeed) {
+            if(allowSpeedUp)
+                enemy.setSpeed(Game.getBomberSpeed()*2/3);
+            else
+                enemy.setSpeed(Game.getBomberSpeed()/2);    //TODO: TEST
+        }
         return bestDirection(enemy.getXTile(), enemy.getYTile());
     }
 }

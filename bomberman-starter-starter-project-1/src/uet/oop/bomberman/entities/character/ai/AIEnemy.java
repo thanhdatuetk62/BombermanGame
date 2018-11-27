@@ -6,8 +6,11 @@ import uet.oop.bomberman.library.Queue;
 
 public abstract class AIEnemy extends AI
 {
-    public AIEnemy()
+    protected boolean speed;
+    protected boolean allowSpeedUp = false;
+    public AIEnemy(boolean speed)
     {
+        this.speed = speed;
         ArrayList<Character> canGoThrought = new ArrayList<Character>()
         {{
             add(' ');
@@ -101,6 +104,7 @@ public abstract class AIEnemy extends AI
                 }
             }
             if (direction == -1) direction = random.nextInt(4);
+            allowSpeedUp = true;
             return direction;
         }
         // or not, it will try to catch bomber
@@ -146,6 +150,8 @@ public abstract class AIEnemy extends AI
                     direction = i;
                 }
             }
+            if(curDistance < 4) allowSpeedUp = true;
+            else allowSpeedUp = false;                  //TODO: TEST :))
             if (direction == -1)
             {
                 for (int i = 0; i < 4; i++)
