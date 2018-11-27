@@ -239,28 +239,6 @@ public class AIBomber extends AI
             int direction = -1;
             boolean boom = false;
 
-            System.out.println("DEBUG TIME");
-            for(int i = 0; i < m; i++)
-            {
-                for(int j = 0; j < n; j++)
-                {
-                    System.out.print(map[i][j]);
-                }
-                System.out.println();
-            }
-            System.out.println();
-
-            System.out.println("DEBUG Distance");
-            for(int i = 0; i < m; i++)
-            {
-                for(int j = 0; j < n; j++)
-                {
-                    System.out.printf("%2d ", d[i][j]);
-                }
-                System.out.println();
-            }
-            System.out.println();
-
             for(int i = 0; i < 4; i++)
             {
                 int u = x + hX[i];
